@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Boton } from "./components/boton";
+import { Boton } from "./Components/boton";
 import * as APITransferencia from "./services/transferencia";
-import LoginForm from "./components/LoginForm/LoginForm";
-import { ListarArrays } from "./components/listarArrays";
+import LoginForm from "./Components/LoginForm/LoginForm";
+import { ListarArrays } from "./Components/listarArrays";
 
 function App() {
   const [transferencias, setTransferencias] = useState([]);
