@@ -31,7 +31,7 @@ export const LoginForm = () => {
 
         <div className="Register-link">
           <p> ¿No esta registrado? </p>
-          <a href="http://localhost:3000/pagina2">Registrarse</a>
+          <a href="http://localhost:3000/Registro">Registrarse</a>
         </div>
       </form>
     </div>
