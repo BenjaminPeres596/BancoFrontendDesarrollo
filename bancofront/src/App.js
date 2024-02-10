@@ -1,44 +1,23 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { Boton } from "./Components/boton";
-import * as APITransferencia from "./services/transferencia";
-import LoginForm from "./Components/LoginForm/LoginForm";
-import { ListarArrays } from "./Components/listarArrays";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Pagina2 from "./pages/pagina2";
+import Prueba from "./pages/prueba";
+import LoginForm from "./pages/LoginForm/LoginForm";
 
 function App() {
-  const [transferencias, setTransferencias] = useState([]);
-  const [mostrarTransferencias, setMostrarTransferencias] = useState(false);
-
-  const handleClick = () => {
-    if (!mostrarTransferencias) {
-      APITransferencia.getTransferencias(1)
-        .then((data) => {
-          setTransferencias(data.datos);
-          setMostrarTransferencias(true);
-        })
-        .catch((error) => {
-          console.error("Error al obtener las transferencias:", error);
-        });
-    } else {
-      setMostrarTransferencias(false);
-    }
-  };
-
   return (
     <div>
-      <Boton
-        className="boton-grande"
-        accion={handleClick}
-        nombreAccion="Ver actividad"
-      />
-      {mostrarTransferencias && (
-        <ListarArrays
-          nombre="Transferencias"
-          array={transferencias}
-          atributos={["monto", "fecha"]}
-        />
-      )}
-      <LoginForm />
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route index element={<LoginForm />} />
+            <Route path="/LoginForm" element={<LoginForm />} />
+            <Route path="/Pagina2" element={<Pagina2 />} />
+            <Route path="/prueba" element={<Prueba />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
     </div>
   );
 }
