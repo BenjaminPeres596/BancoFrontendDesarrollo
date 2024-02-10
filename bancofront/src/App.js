@@ -4,11 +4,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Registro from "./pages/Registro";
 import Prueba from "./pages/prueba";
 import LoginForm from "./pages/LoginForm/LoginForm";
+import Header from './Components/Header'
 
 function App() {
   return (
     <div>
       <div>
+        <Header />
         <BrowserRouter>
           <Routes>
             <Route index element={<LoginForm />} />

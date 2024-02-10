@@ -7,7 +7,7 @@ export const LoginForm = () => {
   return (
     <div className="wrapper">
       <form action="">
-        <h1>Inicio Sesion</h1>
+        <h1>Iniciá sesión</h1>
         <div className="input-box">
           <input type="text" placeholder="Documento" required />
           <FaRegNewspaper className="icon" />
@@ -27,10 +27,9 @@ export const LoginForm = () => {
           </label>
           <a href="#">Olvide mi contraseña</a>
         </div>
-        <button type="submit">Iniciar Sesion</button>
-
+        <button type="submit">Iniciar Sesión</button>
         <div className="Register-link">
-          <p> ¿No esta registrado? </p>
+          <p> ¿No está registrado? </p>
           <a href="http://localhost:3000/Registro">Registrarse</a>
         </div>
       </form>
