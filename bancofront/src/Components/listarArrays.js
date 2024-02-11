@@ -9,7 +9,8 @@ export const ListarArrays = ({ nombre, array, atributos }) => {
           <li key={elemento.id}>
             {atributos.map((atributo, i) => (
               <p key={i}>
-                {atributo}: {elemento[atributo]}
+                {atributo.charAt(0).toUpperCase() + atributo.slice(1)}:{" "}
+                {elemento[atributo]}
               </p>
             ))}
           </li>
