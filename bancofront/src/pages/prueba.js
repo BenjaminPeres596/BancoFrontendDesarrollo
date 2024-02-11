@@ -4,25 +4,18 @@ import { Desplegable } from "../Components/desplegable";
 import { ListarArrays } from "../Components/listarArrays";
 import { Boton } from "../Components/boton";
 import * as APITransferencia from "../services/transferencia";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importa FaEyeSlash también
 
 const Prueba = ({ cliente }) => {
   const [cuentas, setCuentas] = useState([]);
+  const [cuentaSeleccionada, setCuentaSeleccionada] = useState(null);
   const [transferencias, setTransferencias] = useState([]);
   const [numeroCuenta, setNumeroCuentaDesplegable] = useState("");
   const [mostrarTransferencias, setMostrarTransferencias] = useState(false);
+  const [mostrarSaldo, setMostrarSaldo] = useState(true);
 
   const handleClickTransferencia = () => {
     console.log("Numero cuenta:", numeroCuenta);
-    transferencias.forEach((transferencia) => {
-      console.log(
-        "Número de cuenta de la cuenta de origen:",
-        transferencia.cuentaOrigen.nroCuenta
-      );
-      console.log(
-        "Número de cuenta de la cuenta de destino:",
-        transferencia.cuentaDestino.nroCuenta
-      );
-    });
     if (!mostrarTransferencias && numeroCuenta) {
       APITransferencia.getTransferencias(numeroCuenta)
         .then((data) => {
@@ -59,6 +52,19 @@ const Prueba = ({ cliente }) => {
       });
   }, [cliente.dni]);
 
+  useEffect(() => {
+    if (numeroCuenta) {
+      const cuentaSeleccionada = cuentas.find(
+        (cuenta) => cuenta.nroCuenta.toString() === numeroCuenta.toString()
+      );
+      setCuentaSeleccionada(cuentaSeleccionada);
+    }
+  }, [cuentas, numeroCuenta]);
+
+  const toggleMostrarSaldo = () => {
+    setMostrarSaldo(!mostrarSaldo);
+  };
+
   return (
     <div>
       <h2>¡Hola {cliente.nombre}!</h2>
@@ -71,6 +77,18 @@ const Prueba = ({ cliente }) => {
           setNumeroCuentaDesplegable(numeroCuenta);
         }}
       />
+      {cuentaSeleccionada && (
+        <>
+          <p>
+            Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
+            {mostrarSaldo ? (
+              <FaEye onClick={toggleMostrarSaldo} />
+            ) : (
+              <FaEyeSlash onClick={toggleMostrarSaldo} />
+            )}
+          </p>
+        </>
+      )}
       <Boton accion={handleClickTransferencia} nombreAccion="Ver actividad" />
       {mostrarTransferencias && (
         <>
