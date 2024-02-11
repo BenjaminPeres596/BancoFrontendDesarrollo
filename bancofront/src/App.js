@@ -5,16 +5,8 @@ import Registro from "./pages/Registro";
 import Prueba from "./pages/prueba";
 import LoginForm from "./pages/LoginForm/LoginForm";
 import Header from "./Components/Header";
-import { Desplegable } from "./Components/desplegable";
-import { Boton } from "./Components/boton";
-import { ListarArrays } from "./Components/listarArrays";
-import * as APITransferencia from "./services/transferencia";
-import * as APICuenta from "./services/cuenta";
 
 function App() {
-  const [transferencias, setTransferencias] = useState([]);
-  const [mostrarTransferencias, setMostrarTransferencias] = useState(false);
-  const [cuentas, setCuentas] = useState([]);
   const [cliente, setCliente] = useState({
     id: "",
     nombre: "",
@@ -24,31 +16,6 @@ function App() {
     dni: "",
     mail: "",
   });
-
-  useEffect(() => {
-    APICuenta.getCuentas(44320093)
-      .then((data) => {
-        setCuentas(data.datos);
-      })
-      .catch((error) => {
-        console.error("Error al obtener las cuentas:", error);
-      });
-  }, []);
-
-  const handleClickTransferencia = () => {
-    if (!mostrarTransferencias) {
-      APITransferencia.getTransferencias(1)
-        .then((data) => {
-          setTransferencias(data.datos);
-          setMostrarTransferencias(true);
-        })
-        .catch((error) => {
-          console.error("Error al obtener las transferencias:", error);
-        });
-    } else {
-      setMostrarTransferencias(false);
-    }
-  };
 
   return (
     <div>
