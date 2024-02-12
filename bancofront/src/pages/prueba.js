@@ -4,7 +4,7 @@ import { Desplegable } from "../Components/desplegable";
 import { ListarArrays } from "../Components/listarArrays";
 import { Boton } from "../Components/boton";
 import * as APITransferencia from "../services/transferencia";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importa FaEyeSlash también
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Prueba = ({ cliente }) => {
   const [cuentas, setCuentas] = useState([]);
