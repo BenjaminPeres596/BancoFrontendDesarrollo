@@ -8,7 +8,7 @@ export const Registro = () => {
     window.history.back();
   };
   return (
-    <div className="wrapper">
+    <div className="wrapper" >
       <form action="">
         <h1>Registro</h1>
         <div className="input-box">
