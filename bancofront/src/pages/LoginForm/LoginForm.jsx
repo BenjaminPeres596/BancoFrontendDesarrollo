@@ -80,14 +80,16 @@ const LoginForm = ({ cliente, setCliente }) => {
           />
           <FaLock className="icon" />
         </div>
-        <div className="remember-forgot">
+        {/*<div className="remember-forgot">
           <label>
             <input type="checkbox" />
             Recuerdame
           </label>
           <a href="#">Olvide mi contraseña</a>
-        </div>
+        </div>*/}
+        <div className="button-row">
         <button type="submit">Iniciar Sesión</button>
+        </div>
         <div className="Register-link">
           <p> ¿No está registrado? </p>
           <a href="http://localhost:3000/Registro">Registrarse</a>
