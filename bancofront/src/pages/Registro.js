@@ -9,7 +9,7 @@ export const Registro = () => {
   };
   return (
     <div className="wrapper">
-      <form action="">
+      <form action="" className="registro-form">
         <h1>Registro</h1>
         <div className="input-box">
           <input type="text" placeholder="Nombre" required />
@@ -20,7 +20,7 @@ export const Registro = () => {
           <CiUser className="icon" />
         </div>
         <div className="input-box">
-        <input type="text" placeholder="Documento" pattern="[0-9]*" required />
+          <input type="text" placeholder="Documento" pattern="[0-9]*" required />
           <FaRegNewspaper className="icon" />
         </div>
         <div className="input-box">

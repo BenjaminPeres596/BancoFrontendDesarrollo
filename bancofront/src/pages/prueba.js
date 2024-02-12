@@ -4,6 +4,8 @@ import { Desplegable } from "../Components/desplegable";
 import { ListarArrays } from "../Components/listarArrays";
 import { Boton } from "../Components/boton";
 import * as APITransferencia from "../services/transferencia";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./prueba.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Prueba = ({ cliente }) => {
@@ -66,17 +68,23 @@ const Prueba = ({ cliente }) => {
   };
 
   return (
-    <div>
-      <h2>¡Hola {cliente.nombre}!</h2>
-      <Desplegable
-        array={cuentas}
-        atributoAMostrar={"nroCuenta"}
-        textoAMostrar={"Seleccione una cuenta"}
-        onSelect={(numeroCuenta) => {
-          console.log("Numero cuenta:", numeroCuenta);
-          setNumeroCuentaDesplegable(numeroCuenta);
-        }}
-      />
+    <div class="container-fluid">
+      <div class="d-flex container-fluid m-4">
+        <div class="col-lg-10">
+          <h2>¡Hola {cliente.nombre}!</h2>
+        </div>
+        <div className="col-lg-2">
+          <Desplegable
+            array={cuentas}
+            atributoAMostrar={"nroCuenta"}
+            textoAMostrar={"Seleccione una cuenta"}
+            onSelect={(numeroCuenta) => {
+              console.log("Numero cuenta:", numeroCuenta);
+              setNumeroCuentaDesplegable(numeroCuenta);
+            }}
+          />
+        </div>
+      </div>
       {cuentaSeleccionada && (
         <>
           <p>
