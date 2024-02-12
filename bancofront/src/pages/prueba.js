@@ -5,6 +5,8 @@ import { ListarArrays } from "../Components/listarArrays";
 import { Boton } from "../Components/boton";
 import * as APITransferencia from "../services/transferencia";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importa FaEyeSlash también
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./prueba.css";
 
 const Prueba = ({ cliente }) => {
   const [cuentas, setCuentas] = useState([]);
@@ -66,29 +68,35 @@ const Prueba = ({ cliente }) => {
   };
 
   return (
-    <div>
-      <h2>¡Hola {cliente.nombre}!</h2>
-      <Desplegable
-        array={cuentas}
-        atributoAMostrar={"nroCuenta"}
-        textoAMostrar={"Seleccione una cuenta"}
-        onSelect={(numeroCuenta) => {
-          console.log("Numero cuenta:", numeroCuenta);
-          setNumeroCuentaDesplegable(numeroCuenta);
-        }}
-      />
-      {cuentaSeleccionada && (
-        <>
-          <p>
-            Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
-            {mostrarSaldo ? (
-              <FaEye onClick={toggleMostrarSaldo} />
-            ) : (
-              <FaEyeSlash onClick={toggleMostrarSaldo} />
-            )}
-          </p>
-        </>
-      )}
+    <div class="container-fluid">  
+      <div class="d-flex container-fluid m-4">
+        <div class="col-lg-10">
+          <h2 >¡Hola {cliente.nombre}!</h2>
+        </div>
+        <div className="col-lg-2">
+          <Desplegable
+            array={cuentas}
+            atributoAMostrar={"nroCuenta"}
+            textoAMostrar={"Seleccione una cuenta"}
+            onSelect={(numeroCuenta) => {
+              console.log("Numero cuenta:", numeroCuenta);
+              setNumeroCuentaDesplegable(numeroCuenta);
+            }}
+          />
+        </div>
+      </div>
+        {cuentaSeleccionada && (
+          <>
+            <p>
+              Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
+              {mostrarSaldo ? (
+                <FaEye onClick={toggleMostrarSaldo} />
+              ) : (
+                <FaEyeSlash onClick={toggleMostrarSaldo} />
+              )}
+            </p>
+          </>
+        )}
       <Boton accion={handleClickTransferencia} nombreAccion="Ver actividad" />
       {mostrarTransferencias && (
         <>
