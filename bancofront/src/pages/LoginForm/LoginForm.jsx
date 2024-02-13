@@ -44,7 +44,7 @@ const LoginForm = ({ cliente, setCliente }) => {
   };
 
   return (
-    <div className="wrapper">
+    <div className="wrapper bg-white">
       <form onSubmit={handleLogin}>
         <h1>Iniciá sesión</h1>
         <div className="input-box">
