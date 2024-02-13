@@ -8,8 +8,8 @@ const Header = () => {
   return (
     <header className="container-fluid colorcito">
       <div className="row justify-content-between">
-        <h1 className="col-lg-10 texto">BANCO GENERACIÓN</h1>
-        <img src={imagen} alt="Evolucion" className="col-lg-2 img" />
+        <h1 className="col-lg-9 texto">BANCO GENERACIÓN</h1>
+        <img src={imagen} alt="Evolucion" className="col-lg-2 my-2 img" />
       </div>
     </header>
   );

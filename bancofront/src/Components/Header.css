@@ -1,8 +1,5 @@
 .colorcito {
     background-color: rgba(59, 94, 160, 0.897);
-    /* color: #000000; */
-    /* padding: 20px 0; */
-    /* width: 100vw; */
 }
 
 .texto{
@@ -23,10 +20,14 @@
 
 @media (max-width: 600px) {
     .texto {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 }
 
+.img{
+    width: 220px;
+    height: auto;
+}
 @media (max-width: 991px) {
     .img {
         display: none;
