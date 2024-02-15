@@ -8,7 +8,7 @@ export const Registro = () => {
     window.history.back();
   };
   return (
-    <div className="wrapper">
+    <div className="wrapper bg-white position-absolute top-50 start-50 translate-middle">
       <form action="" className="registro-form">
         <h1>Registro</h1>
         <div className="input-box">
@@ -35,7 +35,7 @@ export const Registro = () => {
           <input type="email" placeholder="Mail" required />
           <FaEnvelopeOpen className="icon" />
         </div>
-        <div className="button-row">
+        <div className="button-row justify-content-evenly">
           <button type="button" onClick={handleVolverClick}>Volver</button>
           <button type="submit">Registrarse</button>
         </div>

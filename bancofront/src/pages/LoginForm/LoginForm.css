@@ -1,11 +1,9 @@
 .wrapper {
-  max-width: 420px;
+  max-width: 520px;
   width: 100%;
-  background-color: #e7e5e5;
+  background-color: rgb(255, 255, 255);
   color: black;
-  padding: 20px 40px;
-  height: auto;
-  margin: 1rem auto;
+  padding: 40px 80px;
 }
 
 .wrapper h1 {

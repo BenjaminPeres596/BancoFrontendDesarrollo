@@ -4,9 +4,9 @@ import { Desplegable } from "../Components/desplegable";
 import { ListarArrays } from "../Components/listarArrays";
 import { Boton } from "../Components/boton";
 import * as APITransferencia from "../services/transferencia";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importa FaEyeSlash también
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./prueba.css";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Prueba = ({ cliente }) => {
   const [cuentas, setCuentas] = useState([]);
@@ -68,12 +68,12 @@ const Prueba = ({ cliente }) => {
   };
 
   return (
-    <div class="container-fluid">
-      <div class="d-flex container-fluid m-4">
-        <div class="col-lg-10">
-          <h2>¡Hola {cliente.nombre}!</h2>
+    <div className="container-fluid">  
+      <div className="row justify-content-between p-5 px-5">
+        <div className="col-lg-6 col-md-6 col-sm-12 m-3">
+          <h2 >¡Hola {cliente.nombre}!</h2>
         </div>
-        <div className="col-lg-2">
+        <div className="col-lg-3 col-md-4 col-sm-12 m-3">
           <Desplegable
             array={cuentas}
             atributoAMostrar={"id"}
@@ -85,18 +85,18 @@ const Prueba = ({ cliente }) => {
           />
         </div>
       </div>
-      {cuentaSeleccionada && (
-        <>
-          <p>
-            Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
-            {mostrarSaldo ? (
-              <FaEye onClick={toggleMostrarSaldo} />
-            ) : (
-              <FaEyeSlash onClick={toggleMostrarSaldo} />
-            )}
-          </p>
-        </>
-      )}
+        {cuentaSeleccionada && (
+          <>
+            <p>
+              Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
+              {mostrarSaldo ? (
+                <FaEye onClick={toggleMostrarSaldo} />
+              ) : (
+                <FaEyeSlash onClick={toggleMostrarSaldo} />
+              )}
+            </p>
+          </>
+        )}
       <Boton accion={handleClickTransferencia} nombreAccion="Ver actividad" />
       {mostrarTransferencias && (
         <>

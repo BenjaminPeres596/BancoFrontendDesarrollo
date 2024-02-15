@@ -44,7 +44,7 @@ const LoginForm = ({ cliente, setCliente }) => {
   };
 
   return (
-    <div className="wrapper">
+    <div className="wrapper bg-white position-absolute top-50 start-50 translate-middle">
       <form onSubmit={handleLogin}>
         <h1>Iniciá sesión</h1>
         <div className="input-box">
@@ -87,7 +87,7 @@ const LoginForm = ({ cliente, setCliente }) => {
           </label>
           <a href="#">Olvide mi contraseña</a>
         </div>*/}
-        <div className="button-row">
+        <div className="button-row justify-content-center">
         <button type="submit">Iniciar Sesión</button>
         </div>
         <div className="Register-link">

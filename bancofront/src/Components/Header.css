@@ -1,31 +1,35 @@
-.header {
+.colorcito {
     background-color: rgba(59, 94, 160, 0.897);
-    color: #fff;
-    padding: 20px 0;
-    width: 100vw; /* Establece el ancho al 100% del ancho de la ventana */
 }
 
-.container {
+.texto{
+    font-size: 3rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
+    justify-content: start;
+    padding-left: 4rem;
+    color: white;
 }
 
-.logo {
-    margin-left: 70px; 
+@media (max-width: 991px) {
+    .texto {
+        justify-content: center;
+        padding: 0
+    }
 }
 
-.logo-evolucion {
-    width: 10%;
+@media (max-width: 600px) {
+    .texto {
+        font-size: 1.8rem;
+    }
+}
+
+.img{
+    width: 220px;
     height: auto;
-    margin-right: 50px;
 }
-
-
-h1 {
-    font-size: 45px;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-    color: rgb(255, 255, 255);
-  }
+@media (max-width: 991px) {
+    .img {
+        display: none;
+    }
+}

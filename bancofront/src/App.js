@@ -18,8 +18,8 @@ function App() {
   });
 
   return (
-    <div>
-      <div>
+    <div className="h-100">
+      <div className="bg-light h-100">
         <Header />
         <BrowserRouter>
           <Routes>
