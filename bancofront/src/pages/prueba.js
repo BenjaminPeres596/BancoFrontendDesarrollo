@@ -12,14 +12,14 @@ const Prueba = ({ cliente }) => {
   const [cuentas, setCuentas] = useState([]);
   const [cuentaSeleccionada, setCuentaSeleccionada] = useState(null);
   const [transferencias, setTransferencias] = useState([]);
-  const [numeroCuenta, setNumeroCuentaDesplegable] = useState("");
+  const [id, setIdDesplegable] = useState("");
   const [mostrarTransferencias, setMostrarTransferencias] = useState(false);
   const [mostrarSaldo, setMostrarSaldo] = useState(true);
 
   const handleClickTransferencia = () => {
-    console.log("Numero cuenta:", numeroCuenta);
-    if (!mostrarTransferencias && numeroCuenta) {
-      APITransferencia.getTransferencias(numeroCuenta)
+    console.log("Id cuenta:", id);
+    if (!mostrarTransferencias && id) {
+      APITransferencia.getTransferencias(id)
         .then((data) => {
           setTransferencias(formatTransferencias(data.datos));
           setMostrarTransferencias(true);
@@ -55,13 +55,13 @@ const Prueba = ({ cliente }) => {
   }, [cliente.dni]);
 
   useEffect(() => {
-    if (numeroCuenta) {
+    if (id) {
       const cuentaSeleccionada = cuentas.find(
-        (cuenta) => cuenta.nroCuenta.toString() === numeroCuenta.toString()
+        (cuenta) => cuenta.id.toString() === id.toString()
       );
       setCuentaSeleccionada(cuentaSeleccionada);
     }
-  }, [cuentas, numeroCuenta]);
+  }, [cuentas, id]);
 
   const toggleMostrarSaldo = () => {
     setMostrarSaldo(!mostrarSaldo);
@@ -76,11 +76,11 @@ const Prueba = ({ cliente }) => {
         <div className="col-lg-2">
           <Desplegable
             array={cuentas}
-            atributoAMostrar={"nroCuenta"}
+            atributoAMostrar={"id"}
             textoAMostrar={"Seleccione una cuenta"}
-            onSelect={(numeroCuenta) => {
-              console.log("Numero cuenta:", numeroCuenta);
-              setNumeroCuentaDesplegable(numeroCuenta);
+            onSelect={(id) => {
+              console.log("Id:", id);
+              setIdDesplegable(id);
             }}
           />
         </div>
@@ -103,8 +103,7 @@ const Prueba = ({ cliente }) => {
           <ListarArrays
             nombre="Transferencias realizadas"
             array={transferencias.filter(
-              (transferencia) =>
-                transferencia.cuentaOrigen.nroCuenta.toString() === numeroCuenta
+              (transferencia) => transferencia.cuentaOrigen.id.toString() === id
             )}
             atributos={["monto", "fecha"]}
           />
@@ -112,8 +111,7 @@ const Prueba = ({ cliente }) => {
             nombre="Transferencias recibidas"
             array={transferencias.filter(
               (transferencia) =>
-                transferencia.cuentaDestino.nroCuenta.toString() ===
-                numeroCuenta
+                transferencia.cuentaDestino.id.toString() === id
             )}
             atributos={["monto", "fecha"]}
           />
