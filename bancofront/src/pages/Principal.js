@@ -5,10 +5,10 @@ import { ListarArrays } from "../Components/listarArrays";
 import { Boton } from "../Components/boton";
 import * as APITransferencia from "../services/transferencia";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importa FaEyeSlash también
-import 'bootstrap/dist/css/bootstrap.min.css';
-import "./prueba.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./principal.css";
 
-const Prueba = ({ cliente }) => {
+const Principal = ({ cliente }) => {
   const [cuentas, setCuentas] = useState([]);
   const [cuentaSeleccionada, setCuentaSeleccionada] = useState(null);
   const [transferencias, setTransferencias] = useState([]);
@@ -18,6 +18,8 @@ const Prueba = ({ cliente }) => {
 
   const handleClickTransferencia = () => {
     console.log("Id cuenta:", id);
+    console.log("Cliente:", cliente);
+    console.log("Cuenta:", cuentas);
     if (!mostrarTransferencias && id) {
       APITransferencia.getTransferencias(id)
         .then((data) => {
@@ -45,7 +47,7 @@ const Prueba = ({ cliente }) => {
   };
 
   useEffect(() => {
-    APICuenta.getCuentas(cliente.dni)
+    APICuenta.GetCuentas(cliente.dni)
       .then((data) => {
         setCuentas(data.datos);
       })
@@ -68,10 +70,10 @@ const Prueba = ({ cliente }) => {
   };
 
   return (
-    <div className="container-fluid">  
+    <div className="container-fluid">
       <div className="row justify-content-between p-5 px-5">
         <div className="col-lg-6 col-md-6 col-sm-12 m-3">
-          <h2 >¡Hola {cliente.nombre}!</h2>
+          <h2>¡Hola {cliente.nombre}!</h2>
         </div>
         <div className="col-lg-3 col-md-4 col-sm-12 m-3">
           <Desplegable
@@ -85,18 +87,18 @@ const Prueba = ({ cliente }) => {
           />
         </div>
       </div>
-        {cuentaSeleccionada && (
-          <>
-            <p>
-              Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
-              {mostrarSaldo ? (
-                <FaEye onClick={toggleMostrarSaldo} />
-              ) : (
-                <FaEyeSlash onClick={toggleMostrarSaldo} />
-              )}
-            </p>
-          </>
-        )}
+      {cuentaSeleccionada && (
+        <>
+          <p>
+            Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
+            {mostrarSaldo ? (
+              <FaEye onClick={toggleMostrarSaldo} />
+            ) : (
+              <FaEyeSlash onClick={toggleMostrarSaldo} />
+            )}
+          </p>
+        </>
+      )}
       <Boton accion={handleClickTransferencia} nombreAccion="Ver actividad" />
       {mostrarTransferencias && (
         <>
@@ -121,4 +123,4 @@ const Prueba = ({ cliente }) => {
   );
 };
 
-export default Prueba;
+export default Principal;

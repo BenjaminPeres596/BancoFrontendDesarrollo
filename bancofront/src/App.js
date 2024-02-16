@@ -2,19 +2,28 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Registro from "./pages/Registro";
-import Prueba from "./pages/prueba";
+import Principal from "./pages/Principal";
 import LoginForm from "./pages/LoginForm/LoginForm";
 import Header from "./Components/Header";
 
 function App() {
   const [cliente, setCliente] = useState({
-    id: "",
+    id: 0,
     nombre: "",
     apellido: "",
     usuario: "",
     clave: "",
+    sal: "",
     dni: "",
     mail: "",
+    bancoId: 1,
+    banco: {
+      id: 0,
+      razonSocial: "string",
+      telefono: 0,
+      calle: "string",
+      numero: 0,
+    },
   });
 
   return (
@@ -31,8 +40,14 @@ function App() {
               path="/LoginForm"
               element={<LoginForm cliente={cliente} setCliente={setCliente} />}
             />
-            <Route path="/Registro" element={<Registro />} />
-            <Route path="/prueba" element={<Prueba cliente={cliente} />} />
+            <Route
+              path="/Registro"
+              element={<Registro cliente={cliente} setCliente={setCliente} />}
+            />
+            <Route
+              path="/Principal"
+              element={<Principal cliente={cliente} />}
+            />
           </Routes>
         </BrowserRouter>
       </div>

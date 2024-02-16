@@ -33,7 +33,7 @@ const LoginForm = ({ cliente, setCliente }) => {
           apellido,
           mail,
         }));
-        navigate("/prueba");
+        navigate("/Principal");
         console.log("Inicio de sesión exitoso");
       } else {
         console.log("Inicio de sesión fallido:", response.mensaje);
@@ -88,7 +88,7 @@ const LoginForm = ({ cliente, setCliente }) => {
           <a href="#">Olvide mi contraseña</a>
         </div>*/}
         <div className="button-row justify-content-center">
-        <button type="submit">Iniciar Sesión</button>
+          <button type="submit">Iniciar Sesión</button>
         </div>
         <div className="Register-link">
           <p> ¿No está registrado? </p>
