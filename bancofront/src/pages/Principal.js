@@ -69,6 +69,10 @@ const Principal = ({ cliente }) => {
     setMostrarSaldo(!mostrarSaldo);
   };
 
+  const handleVolverClick = () => {
+    window.history.back();
+  };
+
   return (
     <div className="container-fluid">
       <div className="row justify-content-between p-5 px-5">
@@ -100,6 +104,7 @@ const Principal = ({ cliente }) => {
         </>
       )}
       <Boton accion={handleClickTransferencia} nombreAccion="Ver actividad" />
+      <button type="button" onClick={handleVolverClick}>Volver</button>
       {mostrarTransferencias && (
         <>
           <ListarArrays
