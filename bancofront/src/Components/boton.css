@@ -1,0 +1,12 @@
+.Boton {
+  width: 10%;
+  height: 45px;
+  margin: 1%;
+  background-color: rgba(59, 94, 160, 0.829);
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}

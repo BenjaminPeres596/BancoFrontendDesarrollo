@@ -5,6 +5,8 @@ import Registro from "./pages/Registro";
 import Principal from "./pages/Principal";
 import LoginForm from "./pages/LoginForm/LoginForm";
 import Header from "./Components/Header";
+import Movimientos from "./pages/Movimientos";
+import Transferencia from "./pages/Transferencia";
 
 function App() {
   const [cliente, setCliente] = useState({
@@ -47,6 +49,16 @@ function App() {
             <Route
               path="/Principal"
               element={<Principal cliente={cliente} />}
+            />
+            <Route
+              path="/Movimientos"
+              element={
+                <Movimientos cliente={cliente} setCliente={setCliente} />
+              }
+            />
+            <Route
+              path="/Transferencia"
+              element={<Transferencia cliente={cliente} />}
             />
           </Routes>
         </BrowserRouter>

@@ -1,3 +1,9 @@
+import "./boton.css";
+
 export const Boton = ({ accion, nombreAccion }) => {
-    return <button onClick={accion}>{nombreAccion}</button>;
-  };
+  return (
+    <button className="Boton" onClick={accion}>
+      {nombreAccion}
+    </button>
+  );
+};

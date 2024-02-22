@@ -1,15 +1,15 @@
+// Movimientos.js
 import React, { useState, useEffect } from "react";
+import * as APITransferencia from "../services/transferencia";
+import { ListarArrays } from "../Components/listarArrays";
+import "./Movimiento.css";
 import * as APICuenta from "../services/cuenta";
 import { Desplegable } from "../Components/desplegable";
-import { ListarArrays } from "../Components/listarArrays";
 import { Boton } from "../Components/boton";
-import * as APITransferencia from "../services/transferencia";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importa FaEyeSlash también
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./principal.css";
-import { useNavigate } from "react-router-dom";
 
-const Principal = ({ cliente }) => {
+const Movimientos = ({ cliente }) => {
   const [cuentas, setCuentas] = useState([]);
   const [cuentaSeleccionada, setCuentaSeleccionada] = useState(null);
   const [transferencias, setTransferencias] = useState([]);
@@ -47,8 +47,6 @@ const Principal = ({ cliente }) => {
     });
   };
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     APICuenta.GetCuentas(cliente.dni)
       .then((data) => {
@@ -75,48 +73,25 @@ const Principal = ({ cliente }) => {
   const handleVolverClick = () => {
     window.history.back();
   };
-  const VerMov = () => {
-    navigate("/Movimientos");
-  };
-
-  const VerTrans = () => {
-    navigate("/Transferencia");
-  };
 
   return (
-    <div className="container-fluid">
-      <div className="row justify-content-between p-5 px-5">
-        <div className="col-lg-6 col-md-6 col-sm-12 m-3">
-          <h2>¡Hola {cliente.nombre}!</h2>
-        </div>
-        <div className="col-lg-3 col-md-4 col-sm-12 m-3">
-          <Desplegable
-            array={cuentas}
-            atributoAMostrar={"id"}
-            textoAMostrar={"Seleccione una cuenta"}
-            onSelect={(id) => {
-              console.log("Id:", id);
-              setIdDesplegable(id);
-            }}
-          />
-        </div>
+    <div className="Movimiento">
+      <div>
+        {" "}
+        <h2>¡Transferencias de {cliente.nombre}!</h2>{" "}
       </div>
-      {cuentaSeleccionada && (
-        <>
-          <p>
-            Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
-            {mostrarSaldo ? (
-              <FaEye onClick={toggleMostrarSaldo} />
-            ) : (
-              <FaEyeSlash onClick={toggleMostrarSaldo} />
-            )}
-          </p>
-        </>
-      )}
-      <Boton accion={VerMov} nombreAccion="Ver actividad" />
-      <Boton accion={VerTrans} nombreAccion="Realizar transferencia" />
-      <Boton accion={handleVolverClick} nombreAccion="Volver" />
-
+      <div className="Seleccion">
+        <Desplegable
+          array={cuentas}
+          atributoAMostrar={"id"}
+          textoAMostrar={"Seleccione una cuenta"}
+          onSelect={(id) => {
+            console.log("Id:", id);
+            setIdDesplegable(id);
+          }}
+        />
+      </div>
+      <Boton accion={handleClickTransferencia} nombreAccion="Ver actividad" />
       {mostrarTransferencias && (
         <>
           <ListarArrays
@@ -126,6 +101,7 @@ const Principal = ({ cliente }) => {
             )}
             atributos={["monto", "fecha"]}
           />
+          <br></br>
           <ListarArrays
             nombre="Transferencias recibidas"
             array={transferencias.filter(
@@ -136,8 +112,12 @@ const Principal = ({ cliente }) => {
           />
         </>
       )}
+      <button type="button" onClick={handleVolverClick}>
+        {" "}
+        Volver{" "}
+      </button>
     </div>
   );
 };
 
-export default Principal;
+export default Movimientos;
