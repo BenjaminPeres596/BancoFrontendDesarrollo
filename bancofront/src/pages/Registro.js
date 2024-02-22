@@ -93,85 +93,125 @@ export const Registro = ({ cliente, setCliente }) => {
   };
 
   return (
-    <div className="wrapper bg-white position-absolute top-50 start-50 translate-middle">
-      <form action="" className="registro-form">
-        <h1>Registro</h1>
-        <div className="input-box">
-          <input
-            type="text"
-            placeholder="Nombre"
-            required
-            name="nombre"
-            value={cliente.nombre}
-            onChange={handleChange}
-          />
-          <FaRegNewspaper className="icon" />
+    <div className="container">
+      <div className="row justify-content-center align-items-center">
+        <div className="col-md-6">
+          <div className="bg-white p-4 rounded">
+            <form className="row g-3">
+              <div className="col-12">
+                <h1 className="registroTitulo">Registro</h1>
+              </div>
+              <div className="col-md-6">
+                <label htmlFor="inputNombre" className="form-label">Nombre</label>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="inputNombre"
+                    placeholder="Nombre"
+                    required
+                    name="nombre"
+                    value={cliente.nombre}
+                    onChange={handleChange}
+                  />
+                  <span className="input-group-text"><FaRegNewspaper /></span>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <label htmlFor="inputApellido" className="form-label">Apellido</label>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="inputApellido"
+                    placeholder="Apellido"
+                    required
+                    name="apellido"
+                    value={cliente.apellido}
+                    onChange={handleChange}
+                  />
+                  <span className="input-group-text"><CiUser /></span>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <label htmlFor="inputDocumento" className="form-label">Documento</label>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="inputDocumento"
+                    placeholder="Documento"
+                    pattern="[0-9]*"
+                    required
+                    name="dni"
+                    value={cliente.dni}
+                    onChange={handleChange}
+                  />
+                  <span className="input-group-text"><FaRegNewspaper /></span>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <label htmlFor="inputUsuario" className="form-label">Usuario</label>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="inputUsuario"
+                    placeholder="Usuario"
+                    required
+                    name="usuario"
+                    value={cliente.usuario}
+                    onChange={handleChange}
+                  />
+                  <span className="input-group-text"><FaUserCircle /></span>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <label htmlFor="inputClave" className="form-label">Clave</label>
+                <div className="input-group">
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="inputClave"
+                    placeholder="Clave"
+                    required
+                    name="clave"
+                    value={cliente.clave}
+                    onChange={handleChange}
+                  />
+                  <span className="input-group-text"><FaLock /></span>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <label htmlFor="inputMail" className="form-label">Mail</label>
+                <div className="input-group">
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="inputMail"
+                    placeholder="Mail"
+                    required
+                    name="mail"
+                    value={cliente.mail}
+                    onChange={handleChange}
+                  />
+                  <span className="input-group-text"><FaEnvelopeOpen /></span>
+                </div>
+              </div>
+              <div className="col-12">
+                <div className="button-row justify-content-evenly mt-3">
+                  <button type="button" className="btn btn-secondary" onClick={handleVolverClick}>
+                    Volver
+                  </button>
+                  <button type="submit" className="btn btn-primary" onClick={handleRegistro}>
+                    Registrarse
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-        <div className="input-box">
-          <input
-            type="text"
-            placeholder="Apellido"
-            required
-            name="apellido"
-            value={cliente.apellido}
-            onChange={handleChange}
-          />
-          <CiUser className="icon" />
-        </div>
-        <div className="input-box">
-          <input
-            type="text"
-            placeholder="Documento"
-            pattern="[0-9]*"
-            required
-            name="dni"
-            value={cliente.dni}
-            onChange={handleChange}
-          />
-          <FaRegNewspaper className="icon" />
-        </div>
-        <div className="input-box">
-          <input
-            type="text"
-            placeholder="Usuario"
-            required
-            name="usuario"
-            value={cliente.usuario}
-            onChange={handleChange}
-          />
-          <FaUserCircle className="icon" />
-        </div>
-        <div className="input-box">
-          <input
-            type="password"
-            placeholder="Clave"
-            required
-            name="clave"
-            value={cliente.clave}
-            onChange={handleChange}
-          />
-          <FaLock className="icon" />
-        </div>
-        <div className="input-box">
-          <input
-            type="email"
-            placeholder="Mail"
-            required
-            name="mail"
-            value={cliente.mail}
-            onChange={handleChange}
-          />
-          <FaEnvelopeOpen className="icon" />
-        </div>
-        <div className="button-row justify-content-evenly">
-          <button type="button" onClick={handleVolverClick}>
-            Volver
-          </button>
-          <button type="submit" onClick={handleRegistro}>
-            Registrarse
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   );
 };
