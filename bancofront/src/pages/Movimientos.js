@@ -9,18 +9,27 @@ import { Boton } from "../Components/boton";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importa FaEyeSlash también
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const Movimientos = ({ cliente }) => {
+const Movimientos = () => {
   const [cuentas, setCuentas] = useState([]);
+  const [userData, setUserData] = useState(null);
   const [cuentaSeleccionada, setCuentaSeleccionada] = useState(null);
   const [transferencias, setTransferencias] = useState([]);
   const [id, setIdDesplegable] = useState("");
   const [mostrarTransferencias, setMostrarTransferencias] = useState(false);
   const [mostrarSaldo, setMostrarSaldo] = useState(true);
 
+  useEffect(() => {
+    const cookieData = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("userData="));
+    if (cookieData) {
+      const userData = JSON.parse(decodeURIComponent(cookieData.split("=")[1]));
+      setUserData(userData);
+      console.log("Datos del usuario:", userData);
+    }
+  }, []);
+
   const handleClickTransferencia = () => {
-    console.log("Id cuenta:", id);
-    console.log("Cliente:", cliente);
-    console.log("Cuenta:", cuentas);
     if (!mostrarTransferencias && id) {
       APITransferencia.getTransferencias(id)
         .then((data) => {
@@ -48,14 +57,16 @@ const Movimientos = ({ cliente }) => {
   };
 
   useEffect(() => {
-    APICuenta.GetCuentas(cliente.dni)
-      .then((data) => {
-        setCuentas(data.datos);
-      })
-      .catch((error) => {
-        console.error("Error al obtener las cuentas:", error);
-      });
-  }, [cliente.dni]);
+    if (userData) {
+      APICuenta.GetCuentas(userData.dni)
+        .then((data) => {
+          setCuentas(data.datos);
+        })
+        .catch((error) => {
+          console.error("Error al obtener las cuentas:", error);
+        });
+    }
+  }, [userData]);
 
   useEffect(() => {
     if (id) {
@@ -78,7 +89,7 @@ const Movimientos = ({ cliente }) => {
     <div className="Movimiento">
       <div>
         {" "}
-        <h2>¡Transferencias de {cliente.nombre}!</h2>{" "}
+        <h2>¡Transferencias de {userData?.nombre || ""}!</h2>{" "}
       </div>
       <div className="Seleccion">
         <Desplegable

@@ -108,26 +108,6 @@ const Principal = () => {
         nombreAccion="Salir"
         onClick={() => navigate("/")}
       ></Boton>
-
-      {mostrarTransferencias && (
-        <>
-          <ListarArrays
-            nombre="Transferencias realizadas"
-            array={transferencias.filter(
-              (transferencia) => transferencia.cuentaOrigen.id.toString() === id
-            )}
-            atributos={["monto", "fecha"]}
-          />
-          <ListarArrays
-            nombre="Transferencias recibidas"
-            array={transferencias.filter(
-              (transferencia) =>
-                transferencia.cuentaDestino.id.toString() === id
-            )}
-            atributos={["monto", "fecha"]}
-          />
-        </>
-      )}
     </div>
   );
 };
