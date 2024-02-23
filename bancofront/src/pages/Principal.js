@@ -101,18 +101,27 @@ const Principal = ({ cliente }) => {
           />
         </div>
       </div>
-      {cuentaSeleccionada && (
-        <>
-          <p>
-            Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
-            {mostrarSaldo ? (
-              <FaEye onClick={toggleMostrarSaldo} />
-            ) : (
-              <FaEyeSlash onClick={toggleMostrarSaldo} />
-            )}
+      <div className="container-fluid text-center">
+        <div className="row justify-content-between">
+          {cuentaSeleccionada && (
+            <>
+              <p className="col-md-3">
+                Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
+                {mostrarSaldo ? (
+                  <FaEye onClick={toggleMostrarSaldo} />
+                ) : (
+                  <FaEyeSlash onClick={toggleMostrarSaldo} />
+                )}
+              </p>
+              
+            </>
+          )}
+          <p className="col-md-4">
+            Cbu: {cuentaSeleccionada.cbu}
           </p>
-        </>
-      )}
+        </div>
+        
+      </div>
       <Boton accion={VerMov} nombreAccion="Ver actividad" />
       <Boton accion={VerTrans} nombreAccion="Realizar transferencia" />
       <Boton accion={handleVolverClick} nombreAccion="Volver" />
