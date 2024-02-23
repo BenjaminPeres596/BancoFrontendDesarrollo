@@ -3,6 +3,8 @@ import * as APICuenta from "../services/cuenta";
 import * as APIMotivo from "../services/motivo";
 import { Boton } from "../Components/boton";
 import { useNavigate } from "react-router-dom";
+import "./Transferencia.css";
+import { Desplegable } from "../Components/desplegable";
 
 const Transferencia = ({ cuentaId, cliente }) => {
   const [monto, setMonto] = useState("");
@@ -32,10 +34,11 @@ const Transferencia = ({ cuentaId, cliente }) => {
       .catch((error) => {
         console.error("Error al obtener los motivos:", error);
       });
+    console.log(motivos);
   }, []);
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid wrapper wrapper-custom">
       <div className="row">
         <h3>Realizar Transferencia</h3>
 
@@ -67,26 +70,22 @@ const Transferencia = ({ cuentaId, cliente }) => {
           {mensajeError && <p style={{ color: "red" }}>{mensajeError}</p>}
         </div>
         <div className="col-md-4">
-          <label htmlFor="inputState" className="form-label">
-            Motivo
-          </label>
-          <select id="inputState" className="form-select">
-            <option value="">Seleccionar Motivo</option>
-            {motivos.map((motivo) => (
-              <option key={motivo.id} value={motivo.id}>
-                {motivo.Nombre}
-              </option>
-            ))}
-          </select>
+          <Desplegable
+            array={motivos}
+            atributoAMostrar={"nombre"}
+            textoAMostrar={"Seleccione un motivo"}
+            textoQueAcompaña={""}
+            onSelect={(motivoId) => {
+              console.log("Motivo seleccionado:", motivoId);
+            }}
+          />
         </div>
       </div>
-
-      <div>
-        <Boton nombreAccion="Realizar Transferencia" />
-        <button type="button" onClick={() => navigate("/principal")}>
-          Volver
-        </button>
-      </div>
+      <Boton
+        // accion=
+        nombreAccion="Realizar Transferencia"
+      />
+      <Boton accion={() => navigate("/principal")} nombreAccion={"Volver"} />
     </div>
   );
 };

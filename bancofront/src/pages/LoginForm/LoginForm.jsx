@@ -92,13 +92,6 @@ const LoginForm = ({ cliente, setCliente }) => {
           />
           <FaLock className="icon" />
         </div>
-        {/*<div className="remember-forgot">
-          <label>
-            <input type="checkbox" />
-            Recuerdame
-          </label>
-          <a href="#">Olvide mi contraseña</a>
-        </div>*/}
         <div className="button-row justify-content-center">
           <button type="submit">Iniciar Sesión</button>
         </div>

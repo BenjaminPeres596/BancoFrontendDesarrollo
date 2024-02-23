@@ -1,0 +1,17 @@
+.wrapper-custom {
+  max-width: 100rem;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  padding: 40px 80px;
+  border: 3px solid #3b5ea0d3;
+  margin: 10rem auto; /* Centrado horizontal */
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .wrapper-custom{
+    padding: 20px 30px;
+  }
+}

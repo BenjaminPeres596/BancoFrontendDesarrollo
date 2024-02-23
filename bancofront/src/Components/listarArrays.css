@@ -1,15 +1,19 @@
-.Grilla {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+.grilla {
   gap: 20px;
   justify-content: center;
   align-items: center;
 }
 
-/* Estilo de cada elemento de la grilla */
-.TransferenciaItem {
+.transferenciaItem {
   border: 1px solid #ddd;
-  padding: 15px;
+  padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff; /* Añadido un color de fondo blanco */
+}
+
+/* Añadido un hover efecto para resaltar el elemento cuando se pasa el ratón sobre él */
+.transferenciaItem:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
 }

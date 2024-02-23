@@ -86,21 +86,23 @@ const Movimientos = () => {
   };
 
   return (
-    <div className="Movimiento">
-      <div>
-        {" "}
-        <h2>¡Transferencias de {userData ? userData.nombre : ""}!</h2>{" "}
-      </div>
-      <div className="Seleccion">
-        <Desplegable
-          array={cuentas}
-          atributoAMostrar={"id"}
-          textoAMostrar={"Seleccione una cuenta"}
-          onSelect={(id) => {
-            console.log("Id:", id);
-            setIdDesplegable(id);
-          }}
-        />
+    <div className="Movimiento container-fluid">
+      <div className="row">
+        <div className="p-4 col-md-7">
+          {" "}
+          <h2>¡Transferencias de {userData ? userData.nombre : ""}!</h2>{" "}
+        </div>
+        <div className="Seleccion p-4 col-md-3">
+          <Desplegable
+            array={cuentas}
+            atributoAMostrar={"id"}
+            textoAMostrar={"Seleccione una cuenta"}
+            onSelect={(id) => {
+              console.log("Id:", id);
+              setIdDesplegable(id);
+            }}
+          />
+        </div>
       </div>
       <Boton accion={handleClickTransferencia} nombreAccion="Ver actividad" />
       <Boton accion={handleVolverClick} nombreAccion="Volver" />
