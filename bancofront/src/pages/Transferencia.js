@@ -3,6 +3,8 @@ import * as APICuenta from "../services/cuenta";
 import * as APIMotivo from "../services/motivo";
 import { Boton } from "../Components/boton";
 import { useNavigate } from "react-router-dom";
+import "./Transferencia.css";
+import { Desplegable } from "../Components/desplegable";
 
 const Transferencia = ({ cuentaId, cliente }) => {
   const [monto, setMonto] = useState("");
@@ -33,68 +35,63 @@ const Transferencia = ({ cuentaId, cliente }) => {
       .catch((error) => {
         console.error("Error al obtener los motivos:", error);
       });
+    console.log(motivos);
   }, []);
 
   return (
-    <div className="container-fluid">
-      <div className="row">
-        <h3>Realizar Transferencia</h3>
+    <div className="white-container">
+      <div className="container-fluid">
+        <div className="row">
+          <h3>Realizar Transferencia</h3>
 
-        <div className="mb-3">
-          <label htmlFor="formGroupExampleInput" className="form-label">
-            Ingrese el monto a transferir
-          </label>
-          <input
-            type="number"
-            className="form-control"
-            id="formGroupExampleInput"
-            placeholder="$0"
-            value={monto}
-            onChange={(e) => setMonto(e.target.value)}
-          />
+          <div className="mb-3">
+            <label htmlFor="formGroupExampleInput" className="form-label">
+              Ingrese el monto a transferir
+            </label>
+            <input
+              type="number"
+              className="form-control"
+              id="formGroupExampleInput"
+              placeholder="$0"
+              value={monto}
+              onChange={(e) => setMonto(e.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="formGroupExampleInput2" className="form-label">
+              Ingrese el CBU de destino
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="formGroupExampleInput2"
+              placeholder="00000000000000000000"
+              value={cuentaDestino}
+              onChange={(e) => setCuentaDestino(e.target.value)}
+            />
+            {mensajeError && <p style={{ color: "red" }}>{mensajeError}</p>}
+          </div>
+          <div className="col-md-4">
+            <Desplegable
+              array={motivos}
+              atributoAMostrar={"nombre"}
+              textoAMostrar={"Seleccione un motivo"}
+              textoQueAcompaña={""}
+              onSelect={(motivoId) => {
+                console.log("Motivo seleccionado:", motivoId);
+              }}
+            />
+          </div>
         </div>
-        <div className="mb-3">
-          <label htmlFor="formGroupExampleInput2" className="form-label">
-            Ingrese el CBU de destino
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="formGroupExampleInput2"
-            placeholder="00000000000000000000"
-            value={cuentaDestino}
-            onChange={(e) => setCuentaDestino(e.target.value)}
-          />
-          {mensajeError && <p style={{ color: "red" }}>{mensajeError}</p>}
+        <div>
+          <Boton nombreAccion="Realizar Transferencia" />
+          <button type="button" onClick={() => navigate("/principal")}>
+            Volver
+          </button>
         </div>
-        <div className="col-md-4">
-          <label 
-            htmlFor="inputState" 
-            className="form-label">
-            Motivo
-          </label>
-          <select 
-            id="inputState" 
-            className="form-select">
-            <option value="">Seleccionar Motivo</option>
-            {motivos.map((motivo) => (
-              <option key={motivo.id} value={motivo.id}>
-                {motivo.Nombre}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div>
-        <Boton nombreAccion="Realizar Transferencia" />
-        <button type="button" onClick={() => navigate("/principal")}>
-          Volver
-        </button>
       </div>
     </div>
   );
 };
 
 export default Transferencia;
-

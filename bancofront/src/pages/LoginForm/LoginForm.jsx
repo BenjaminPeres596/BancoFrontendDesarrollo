@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 import { CiUser } from "react-icons/ci";
@@ -33,6 +33,9 @@ const LoginForm = ({ cliente, setCliente }) => {
           apellido,
           mail,
         }));
+        document.cookie = `userData=${encodeURIComponent(
+          JSON.stringify(response.datos)
+        )}; Secure; SameSite=Strict`;
         navigate("/Principal");
         console.log("Inicio de sesión exitoso");
       } else {
@@ -42,6 +45,15 @@ const LoginForm = ({ cliente, setCliente }) => {
       console.error("Error al iniciar sesión:", error);
     }
   };
+
+  useEffect(() => {
+    const cookieData = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("userData="));
+    if (cookieData) {
+      navigate("/Principal");
+    }
+  }, [navigate]);
 
   return (
     <div className="wrapper rounded bg-white position-absolute top-50 start-50 translate-middle">

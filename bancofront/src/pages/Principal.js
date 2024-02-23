@@ -1,63 +1,44 @@
 import React, { useState, useEffect } from "react";
 import * as APICuenta from "../services/cuenta";
 import { Desplegable } from "../Components/desplegable";
-import { ListarArrays } from "../Components/listarArrays";
 import { Boton } from "../Components/boton";
-import * as APITransferencia from "../services/transferencia";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importa FaEyeSlash también
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./principal.css";
 import { useNavigate } from "react-router-dom";
 
-const Principal = ({ cliente }) => {
+const Principal = () => {
   const [cuentas, setCuentas] = useState([]);
   const [cuentaSeleccionada, setCuentaSeleccionada] = useState(null);
-  const [transferencias, setTransferencias] = useState([]);
   const [id, setIdDesplegable] = useState("");
-  const [mostrarTransferencias, setMostrarTransferencias] = useState(false);
+  const [userData, setUserData] = useState(null);
   const [mostrarSaldo, setMostrarSaldo] = useState(true);
 
-  const handleClickTransferencia = () => {
-    console.log("Id cuenta:", id);
-    console.log("Cliente:", cliente);
-    console.log("Cuenta:", cuentas);
-    if (!mostrarTransferencias && id) {
-      APITransferencia.getTransferencias(id)
-        .then((data) => {
-          setTransferencias(formatTransferencias(data.datos));
-          setMostrarTransferencias(true);
-        })
-        .catch((error) => {
-          console.error("Error al obtener las transferencias:", error);
-        });
-    } else {
-      setMostrarTransferencias(false);
+  useEffect(() => {
+    const cookieData = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("userData="));
+    if (cookieData) {
+      const userData = JSON.parse(decodeURIComponent(cookieData.split("=")[1]));
+      setUserData(userData);
+      console.log("Datos del usuario:", userData);
+      console.log("Id", id);
     }
-  };
-
-  const formatTransferencias = (transferencias) => {
-    return transferencias.map((transferencia) => {
-      const fecha = new Date(transferencia.fecha);
-      const fechaFormateada = fecha.toLocaleDateString();
-      const horaFormateada = fecha.toLocaleTimeString();
-      return {
-        ...transferencia,
-        fecha: `${fechaFormateada} ${horaFormateada}`,
-      };
-    });
-  };
+  }, []);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    APICuenta.GetCuentas(cliente.dni)
-      .then((data) => {
-        setCuentas(data.datos);
-      })
-      .catch((error) => {
-        console.error("Error al obtener las cuentas:", error);
-      });
-  }, [cliente.dni]);
+    if (userData) {
+      APICuenta.GetCuentas(userData.dni)
+        .then((data) => {
+          setCuentas(data.datos);
+        })
+        .catch((error) => {
+          console.error("Error al obtener las cuentas:", error);
+        });
+    }
+  }, [userData]);
 
   useEffect(() => {
     if (id) {
@@ -66,6 +47,7 @@ const Principal = ({ cliente }) => {
       );
       setCuentaSeleccionada(cuentaSeleccionada);
     }
+    console.log(cuentaSeleccionada);
   }, [cuentas, id]);
 
   const toggleMostrarSaldo = () => {
@@ -73,7 +55,9 @@ const Principal = ({ cliente }) => {
   };
 
   const handleSalir = () => {
-    window.history.back();
+    document.cookie =
+      "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/LoginForm");
   };
   const VerMov = () => {
     navigate("/Movimientos");
@@ -87,23 +71,33 @@ const Principal = ({ cliente }) => {
     <div className="container-fluid">
       <div className="row justify-content-between p-5 px-5">
         <div className="col-lg-6 col-md-6 col-sm-12 m-3">
-          <h2>¡Hola {cliente.nombre}!</h2>
+          <h2>¡Hola {userData?.nombre || ""}!</h2>
         </div>
         <div className="col-lg-3 col-md-4 col-sm-12 m-3">
           <Desplegable
             array={cuentas}
             atributoAMostrar={"id"}
             textoAMostrar={"Seleccione una cuenta"}
+            textoQueAcompaña={"Cuenta N°:"}
             onSelect={(id) => {
-              console.log("Id:", id);
-              setIdDesplegable(id);
+              if (id === "") {
+                // Si se selecciona "Seleccione una cuenta", resetea la cuenta seleccionada a null
+                setCuentaSeleccionada(null);
+              } else {
+                const cuentaSeleccionada = cuentas.find(
+                  (cuenta) =>
+                    cuenta.id.toString() === id.split(":")[1].toString()
+                );
+                setIdDesplegable(id.split(":")[1]);
+                setCuentaSeleccionada(cuentaSeleccionada);
+              }
             }}
           />
         </div>
       </div>
       <div className="container-fluid text-center">
         <div className="row justify-content-between">
-          {cuentaSeleccionada && (
+          {cuentaSeleccionada ? (
             <>
               <p className="col-md-3 ">
                 Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
@@ -113,36 +107,22 @@ const Principal = ({ cliente }) => {
                   <FaEyeSlash className="ms-3" onClick={toggleMostrarSaldo} />
                 )}
               </p>
-              <p className="col-md-4">
-                Cbu: {cuentaSeleccionada.cbu}
-              </p>
+              <p className="col-md-4">Cbu: {cuentaSeleccionada.cbu}</p>
             </>
+          ) : (
+            <p className="col-md-3">
+              Seleccione una cuenta para ver el saldo y el CBU.
+            </p>
           )}
         </div>
       </div>
       <Boton accion={VerMov} nombreAccion="Ver actividad" />
       <Boton accion={VerTrans} nombreAccion="Realizar transferencia" />
-      <Boton accion={handleSalir} nombreAccion="Salir" onClick={() => navigate("/")}></Boton>
-
-      {mostrarTransferencias && (
-        <>
-          <ListarArrays
-            nombre="Transferencias realizadas"
-            array={transferencias.filter(
-              (transferencia) => transferencia.cuentaOrigen.id.toString() === id
-            )}
-            atributos={["monto", "fecha"]}
-          />
-          <ListarArrays
-            nombre="Transferencias recibidas"
-            array={transferencias.filter(
-              (transferencia) =>
-                transferencia.cuentaDestino.id.toString() === id
-            )}
-            atributos={["monto", "fecha"]}
-          />
-        </>
-      )}
+      <Boton
+        accion={handleSalir}
+        nombreAccion="Salir"
+        onClick={() => navigate("/")}
+      ></Boton>
     </div>
   );
 };
