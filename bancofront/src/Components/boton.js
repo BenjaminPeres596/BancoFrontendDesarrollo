@@ -1,8 +1,10 @@
 import "./boton.css";
 
-export const Boton = ({ accion, nombreAccion }) => {
+export const Boton = ({ accion, nombreAccion, clases }) => {
+  const clasesBoton = Array.isArray(clases) ? clases.join(' ') : '';
+
   return (
-    <button className="Boton" onClick={accion}>
+    <button className={`Boton ${clasesBoton}`} onClick={accion}>
       {nombreAccion}
     </button>
   );

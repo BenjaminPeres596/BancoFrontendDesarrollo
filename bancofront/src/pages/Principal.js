@@ -99,7 +99,7 @@ const Principal = () => {
         <div className="row justify-content-between">
           {cuentaSeleccionada ? (
             <>
-              <p className="col-md-3 ">
+              <p className="col-md-3 textoP">
                 Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
                 {mostrarSaldo ? (
                   <FaEye className="ms-3" onClick={toggleMostrarSaldo} />
@@ -107,22 +107,25 @@ const Principal = () => {
                   <FaEyeSlash className="ms-3" onClick={toggleMostrarSaldo} />
                 )}
               </p>
-              <p className="col-md-4">Cbu: {cuentaSeleccionada.cbu}</p>
+              <p className="col-md-4 textoP">Cbu: {cuentaSeleccionada.cbu}</p>
             </>
           ) : (
-            <p className="col-md-3">
+            <p className="col-md-3 textoP">
               Seleccione una cuenta para ver el saldo y el CBU.
             </p>
           )}
         </div>
       </div>
-      <Boton accion={VerMov} nombreAccion="Ver actividad" />
-      <Boton accion={VerTrans} nombreAccion="Realizar transferencia" />
-      <Boton
-        accion={handleSalir}
-        nombreAccion="Salir"
-        onClick={() => navigate("/")}
-      ></Boton>
+        <div className="justify-content-between">
+          <Boton accion={VerMov} nombreAccion="Ver actividad" clases={['col-md-6']} />
+          <Boton accion={VerTrans} nombreAccion="Realizar transferencia" clases={['col-md-6']} />
+        </div>
+        <Boton
+          accion={handleSalir}
+          nombreAccion="Cerrar Sesion"
+          onClick={() => navigate("/")}
+          clases={['fixed-bottom', 'justify-content-end','mb-3', 'mr-3', 'col-md-3']}
+        />
     </div>
   );
 };
