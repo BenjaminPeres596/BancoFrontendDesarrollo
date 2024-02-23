@@ -30,7 +30,6 @@ const Movimientos = () => {
   }, []);
 
   const handleClickTransferencia = () => {
-    console.log(transferencias[0].cuentaDestino.cbu);
     if (!mostrarTransferencias && id) {
       APITransferencia.getTransferencias(id)
         .then((data) => {
@@ -58,7 +57,6 @@ const Movimientos = () => {
   };
 
   useEffect(() => {
-    console.log();
     if (userData) {
       APICuenta.GetCuentas(userData.dni)
         .then((data) => {
@@ -71,7 +69,6 @@ const Movimientos = () => {
   }, [userData]);
 
   useEffect(() => {
-    console.log(transferencias);
     if (id) {
       const cuentaSeleccionada = cuentas.find(
         (cuenta) => cuenta.id.toString() === id.toString()

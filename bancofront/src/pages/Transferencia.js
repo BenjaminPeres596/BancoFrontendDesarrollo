@@ -39,8 +39,7 @@ const Transferencia = ({ cuentaId, cliente }) => {
   }, []);
 
   return (
-    <div className="white-container">
-      <div className="container-fluid">
+      <div className="container-fluid wrapper wrapper-custom">
         <div className="row">
           <h3>Realizar Transferencia</h3>
 
@@ -83,13 +82,13 @@ const Transferencia = ({ cuentaId, cliente }) => {
             />
           </div>
         </div>
-        <div>
-          <Boton nombreAccion="Realizar Transferencia" />
-          <button type="button" onClick={() => navigate("/principal")}>
-            Volver
-          </button>
-        </div>
-      </div>
+              <Boton
+                // accion=
+                nombreAccion="Realizar Transferencia" />
+              <Boton   
+                accion={() => navigate("/principal")}
+                nombreAccion={"Volver"}
+              />    
     </div>
   );
 };
