@@ -93,17 +93,16 @@ export const Registro = ({ cliente, setCliente }) => {
   };
 
   return (
-    <div className="container">
+    <div className="container ">
       <div className="row justify-content-center align-items-center">
-        <div className="col-md-6">
-          <div className="bg-white p-4 rounded">
+        <div className="col-md-8 pt-5 mt-5">
+          <div className="bg-white p-5 mt-5 rounded">
             <form className="row g-3">
               <div className="col-12">
                 <h1 className="registroTitulo">Registro</h1>
               </div>
               <div className="col-md-6">
-                <label htmlFor="inputNombre" className="form-label">Nombre</label>
-                <div className="input-group">
+                <div className="input-box">
                   <input
                     type="text"
                     className="form-control"
@@ -114,12 +113,11 @@ export const Registro = ({ cliente, setCliente }) => {
                     value={cliente.nombre}
                     onChange={handleChange}
                   />
-                  <span className="input-group-text"><FaRegNewspaper /></span>
+                  <FaRegNewspaper className="icon"/>
                 </div>
               </div>
               <div className="col-md-6">
-                <label htmlFor="inputApellido" className="form-label">Apellido</label>
-                <div className="input-group">
+                <div className="input-box">
                   <input
                     type="text"
                     className="form-control"
@@ -130,12 +128,11 @@ export const Registro = ({ cliente, setCliente }) => {
                     value={cliente.apellido}
                     onChange={handleChange}
                   />
-                  <span className="input-group-text"><CiUser /></span>
+                  <CiUser className="icon"/>
                 </div>
               </div>
               <div className="col-md-6">
-                <label htmlFor="inputDocumento" className="form-label">Documento</label>
-                <div className="input-group">
+                <div className="input-box">
                   <input
                     type="text"
                     className="form-control"
@@ -147,12 +144,11 @@ export const Registro = ({ cliente, setCliente }) => {
                     value={cliente.dni}
                     onChange={handleChange}
                   />
-                  <span className="input-group-text"><FaRegNewspaper /></span>
+                  <FaRegNewspaper className="icon"/>
                 </div>
               </div>
               <div className="col-md-6">
-                <label htmlFor="inputUsuario" className="form-label">Usuario</label>
-                <div className="input-group">
+                <div className="input-box">
                   <input
                     type="text"
                     className="form-control"
@@ -163,12 +159,11 @@ export const Registro = ({ cliente, setCliente }) => {
                     value={cliente.usuario}
                     onChange={handleChange}
                   />
-                  <span className="input-group-text"><FaUserCircle /></span>
+                  <FaUserCircle className="icon" />
                 </div>
               </div>
               <div className="col-md-6">
-                <label htmlFor="inputClave" className="form-label">Clave</label>
-                <div className="input-group">
+                <div className="input-box">
                   <input
                     type="password"
                     className="form-control"
@@ -179,12 +174,11 @@ export const Registro = ({ cliente, setCliente }) => {
                     value={cliente.clave}
                     onChange={handleChange}
                   />
-                  <span className="input-group-text"><FaLock /></span>
+                  <FaLock className="icon"/>
                 </div>
               </div>
               <div className="col-md-6">
-                <label htmlFor="inputMail" className="form-label">Mail</label>
-                <div className="input-group">
+                <div className="input-box">
                   <input
                     type="email"
                     className="form-control"
@@ -195,15 +189,15 @@ export const Registro = ({ cliente, setCliente }) => {
                     value={cliente.mail}
                     onChange={handleChange}
                   />
-                  <span className="input-group-text"><FaEnvelopeOpen /></span>
+                  <FaEnvelopeOpen className="icon"/>
                 </div>
               </div>
               <div className="col-12">
                 <div className="button-row justify-content-evenly mt-3">
-                  <button type="button" className="btn btn-secondary" onClick={handleVolverClick}>
+                  <button type="button" className="btn btn-secondary text-truncate" onClick={handleVolverClick}>
                     Volver
                   </button>
-                  <button type="submit" className="btn btn-primary" onClick={handleRegistro}>
+                  <button type="submit" className="btn btn-primary text-truncate" onClick={handleRegistro}>
                     Registrarse
                   </button>
                 </div>
