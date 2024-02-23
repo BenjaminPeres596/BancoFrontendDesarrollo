@@ -72,7 +72,7 @@ const Principal = ({ cliente }) => {
     setMostrarSaldo(!mostrarSaldo);
   };
 
-  const handleVolverClick = () => {
+  const handleSalir = () => {
     window.history.back();
   };
   const VerMov = () => {
@@ -113,18 +113,16 @@ const Principal = ({ cliente }) => {
                   <FaEyeSlash onClick={toggleMostrarSaldo} />
                 )}
               </p>
-              
+              <p className="col-md-4">
+                Cbu: {cuentaSeleccionada.cbu}
+              </p>
             </>
           )}
-          <p className="col-md-4">
-            Cbu: {cuentaSeleccionada.cbu}
-          </p>
         </div>
-        
       </div>
       <Boton accion={VerMov} nombreAccion="Ver actividad" />
       <Boton accion={VerTrans} nombreAccion="Realizar transferencia" />
-      <Boton accion={handleVolverClick} nombreAccion="Volver" />
+      <Boton accion={handleSalir} nombreAccion="Salir" onClick={() => navigate("/")}></Boton>
 
       {mostrarTransferencias && (
         <>

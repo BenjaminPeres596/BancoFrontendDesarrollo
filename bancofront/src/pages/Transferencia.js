@@ -28,7 +28,7 @@ const Transferencia = ({ cuentaId, cliente }) => {
   }, [cliente.dni, cuentaId]);
 
   return (
-    <div>
+    <div className="container-fluid">
       <h3>Realizar Transferencia</h3>
       <p>Monto:</p>
       <input
@@ -37,20 +37,23 @@ const Transferencia = ({ cuentaId, cliente }) => {
         onChange={(e) => setMonto(e.target.value)}
       />
       <p>Cuenta destino:</p>
-      <Desplegable
-        array={cuentasDestino}
-        atributoAMostrar={"id"}
-        textoAMostrar={"Seleccione una cuenta destino"}
-        onSelect={(id) => {
+      <input
+        type="string"
+        value={cuentaDestino}
+        onChange={(id) => {
           console.log("Cuenta destino seleccionada:", id);
           setCuentaDestino(id);
         }}
       />
       {mensajeError && <p style={{ color: "red" }}>{mensajeError}</p>}
+      
+    <div >
       <Boton nombreAccion="Realizar Transferencia" />
       <button type="button" onClick={() => navigate("/principal")}>
         Volver
       </button>
+    </div>
+      
     </div>
   );
 };
