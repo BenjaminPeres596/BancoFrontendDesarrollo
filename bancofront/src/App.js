@@ -46,10 +46,7 @@ function App() {
               path="/Registro"
               element={<Registro cliente={cliente} setCliente={setCliente} />}
             />
-            <Route
-              path="/Principal"
-              element={<Principal cliente={cliente} />}
-            />
+            <Route path="/Principal" element={<Principal />} />
             <Route
               path="/Movimientos"
               element={

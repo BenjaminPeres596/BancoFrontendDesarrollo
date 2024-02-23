@@ -5,26 +5,114 @@ import { Boton } from "../Components/boton";
 import { useNavigate } from "react-router-dom";
 import "./Transferencia.css";
 import { Desplegable } from "../Components/desplegable";
+import * as APITransferencia from "../services/transferencia";
 
 const Transferencia = ({ cuentaId, cliente }) => {
   const [monto, setMonto] = useState("");
   const [motivos, setMotivos] = useState([]);
-  const [cuentasDestino, setCuentasDestino] = useState([]);
-  const [cuentaDestino, setCuentaDestino] = useState("");
+  const [cuentas, setCuentas] = useState([]);
+  const [cuentaSeleccionada, setCuentaSeleccionada] = useState(null);
+  const [id, setIdDesplegable] = useState(null);
+  const [cbuDestino, setcbuDestino] = useState("");
   const [mensajeError, setMensajeError] = useState("");
+  const [userData, setUserData] = useState(null);
+  const [motivoId, setMotivoId] = useState(null);
+  const [transferencia, setTransferencia] = useState({
+    id: 0,
+    monto: 0,
+    fecha: "2024-02-23T22:27:37.428Z",
+    cuentaOrigenId: 0,
+    cuentaOrigen: {
+      id: 0,
+      cbu: "string",
+      fechaAlta: "string",
+      saldo: 0,
+      clienteId: 0,
+      cliente: {
+        id: 0,
+        nombre: "string",
+        apellido: "string",
+        usuario: "string",
+        clave: "string",
+        sal: "string",
+        dni: 0,
+        mail: "string",
+        bancoId: 0,
+        banco: {
+          id: 0,
+          razonSocial: "string",
+          telefono: 0,
+          calle: "string",
+          numero: 0,
+        },
+      },
+      tipoCuentaId: 0,
+      tipoCuenta: {
+        id: 0,
+        nombre: "string",
+      },
+    },
+    cuentaDestinoId: 0,
+    cuentaDestino: {
+      id: 0,
+      cbu: "string",
+      fechaAlta: "string",
+      saldo: 0,
+      clienteId: 0,
+      cliente: {
+        id: 0,
+        nombre: "string",
+        apellido: "string",
+        usuario: "string",
+        clave: "string",
+        sal: "string",
+        dni: 0,
+        mail: "string",
+        bancoId: 0,
+        banco: {
+          id: 0,
+          razonSocial: "string",
+          telefono: 0,
+          calle: "string",
+          numero: 0,
+        },
+      },
+      tipoCuentaId: 0,
+      tipoCuenta: {
+        id: 0,
+        nombre: "string",
+      },
+    },
+    tipoMotivoId: 0,
+    tipoMotivo: {
+      id: 0,
+      nombre: "string",
+    },
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Obtener cuentas para transferencia
-    APICuenta.GetCuentas(cliente.dni)
-      .then((data) => {
-        const cuentas = data.datos.filter((c) => c.id !== cuentaId);
-        setCuentasDestino(cuentas);
-      })
-      .catch((error) => {
-        console.error("Error al obtener las cuentas:", error);
-      });
-  }, [cliente.dni, cuentaId]);
+    const cookieData = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("userData="));
+    if (cookieData) {
+      const userData = JSON.parse(decodeURIComponent(cookieData.split("=")[1]));
+      setUserData(userData);
+      console.log("Datos del usuario:", userData);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userData) {
+      APICuenta.GetCuentas(userData.dni)
+        .then((data) => {
+          setCuentas(data.datos);
+        })
+        .catch((error) => {
+          console.error("Error al obtener las cuentas:", error);
+        });
+    }
+  }, [userData]);
 
   useEffect(() => {
     APIMotivo.GetMotivos()
@@ -37,11 +125,51 @@ const Transferencia = ({ cuentaId, cliente }) => {
     console.log(motivos);
   }, []);
 
+  const handleTransferir = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await APITransferencia.postTransferencia(
+        transferencia,
+        cuentaSeleccionada.cbu,
+        cbuDestino,
+        monto,
+        motivos.find((motivo) => motivo.nombre === motivoId).id
+      );
+      if (response.exito) {
+        console.log("Transferencia exitosa");
+      } else {
+        console.log("Transferencia fallida:", response.mensaje);
+      }
+    } catch (error) {
+      console.error("Error al transferir:", error);
+    }
+  };
+
   return (
     <div className="container-fluid wrapper wrapper-custom">
       <div className="row">
         <h3>Realizar Transferencia</h3>
-
+        <div className="mb-3">
+          <Desplegable
+            array={cuentas}
+            atributoAMostrar={"id"}
+            textoAMostrar={"Seleccione una cuenta"}
+            textoQueAcompaña={"Cuenta N°:"}
+            onSelect={(id) => {
+              if (id === "") {
+                // Si se selecciona "Seleccione una cuenta", resetea la cuenta seleccionada a null
+                setCuentaSeleccionada(null);
+              } else {
+                const cuentaSeleccionada = cuentas.find(
+                  (cuenta) =>
+                    cuenta.id.toString() === id.split(":")[1].toString()
+                );
+                setIdDesplegable(id.split(":")[1]);
+                setCuentaSeleccionada(cuentaSeleccionada);
+              }
+            }}
+          />
+        </div>
         <div className="mb-3">
           <label htmlFor="formGroupExampleInput" className="form-label">
             Ingrese el monto a transferir
@@ -64,8 +192,8 @@ const Transferencia = ({ cuentaId, cliente }) => {
             className="form-control"
             id="formGroupExampleInput2"
             placeholder="00000000000000000000"
-            value={cuentaDestino}
-            onChange={(e) => setCuentaDestino(e.target.value)}
+            value={cbuDestino}
+            onChange={(e) => setcbuDestino(e.target.value)}
           />
           {mensajeError && <p style={{ color: "red" }}>{mensajeError}</p>}
         </div>
@@ -77,14 +205,15 @@ const Transferencia = ({ cuentaId, cliente }) => {
             textoQueAcompaña={""}
             onSelect={(motivoId) => {
               console.log("Motivo seleccionado:", motivoId);
+              setMotivoId(motivoId);
+              console.log("Cuenta origen:", cuentaSeleccionada?.cbu);
+              console.log("CBU destino:", cbuDestino);
+              console.log("Monto:", monto);
             }}
           />
         </div>
       </div>
-      <Boton
-        // accion=
-        nombreAccion="Realizar Transferencia"
-      />
+      <Boton accion={handleTransferir} nombreAccion="Transferir" />
       <Boton accion={() => navigate("/principal")} nombreAccion={"Volver"} />
     </div>
   );
