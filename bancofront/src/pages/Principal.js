@@ -105,12 +105,12 @@ const Principal = ({ cliente }) => {
         <div className="row justify-content-between">
           {cuentaSeleccionada && (
             <>
-              <p className="col-md-3">
+              <p className="col-md-3 ">
                 Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
                 {mostrarSaldo ? (
-                  <FaEye onClick={toggleMostrarSaldo} />
+                  <FaEye className="ms-3" onClick={toggleMostrarSaldo} />
                 ) : (
-                  <FaEyeSlash onClick={toggleMostrarSaldo} />
+                  <FaEyeSlash className="ms-3" onClick={toggleMostrarSaldo} />
                 )}
               </p>
               <p className="col-md-4">

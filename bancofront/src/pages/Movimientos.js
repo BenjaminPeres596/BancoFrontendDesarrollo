@@ -9,18 +9,28 @@ import { Boton } from "../Components/boton";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importa FaEyeSlash también
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const Movimientos = ({ cliente }) => {
+const Movimientos = () => {
   const [cuentas, setCuentas] = useState([]);
+  const [userData, setUserData] = useState(null);
   const [cuentaSeleccionada, setCuentaSeleccionada] = useState(null);
   const [transferencias, setTransferencias] = useState([]);
   const [id, setIdDesplegable] = useState("");
   const [mostrarTransferencias, setMostrarTransferencias] = useState(false);
   const [mostrarSaldo, setMostrarSaldo] = useState(true);
 
+  useEffect(() => {
+    const cookieData = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("userData="));
+    if (cookieData) {
+      const userData = JSON.parse(decodeURIComponent(cookieData.split("=")[1]));
+      setUserData(userData);
+      console.log("Datos del usuario:", userData);
+    }
+  }, []);
+
   const handleClickTransferencia = () => {
-    console.log("Id cuenta:", id);
-    console.log("Cliente:", cliente);
-    console.log("Cuenta:", cuentas);
+    console.log(transferencias[0].cuentaDestino.cbu);
     if (!mostrarTransferencias && id) {
       APITransferencia.getTransferencias(id)
         .then((data) => {
@@ -48,16 +58,20 @@ const Movimientos = ({ cliente }) => {
   };
 
   useEffect(() => {
-    APICuenta.GetCuentas(cliente.dni)
-      .then((data) => {
-        setCuentas(data.datos);
-      })
-      .catch((error) => {
-        console.error("Error al obtener las cuentas:", error);
-      });
-  }, [cliente.dni]);
+    console.log();
+    if (userData) {
+      APICuenta.GetCuentas(userData.dni)
+        .then((data) => {
+          setCuentas(data.datos);
+        })
+        .catch((error) => {
+          console.error("Error al obtener las cuentas:", error);
+        });
+    }
+  }, [userData]);
 
   useEffect(() => {
+    console.log(transferencias);
     if (id) {
       const cuentaSeleccionada = cuentas.find(
         (cuenta) => cuenta.id.toString() === id.toString()
@@ -73,25 +87,28 @@ const Movimientos = ({ cliente }) => {
   const handleVolverClick = () => {
     window.history.back();
   };
-
+  
   return (
-    <div className="Movimiento">
-      <div>
-        {" "}
-        <h2>¡Transferencias de {cliente.nombre}!</h2>{" "}
-      </div>
-      <div className="Seleccion">
-        <Desplegable
-          array={cuentas}
-          atributoAMostrar={"id"}
-          textoAMostrar={"Seleccione una cuenta"}
-          onSelect={(id) => {
-            console.log("Id:", id);
-            setIdDesplegable(id);
-          }}
-        />
+    <div className="Movimiento container-fluid">
+      <div className="row">
+        <div className="p-4 col-md-7">
+          {" "}
+          <h2>¡Transferencias de {userData ? userData.nombre : ""}!</h2>{" "}
+        </div>
+        <div className="Seleccion p-4 col-md-3">
+          <Desplegable
+            array={cuentas}
+            atributoAMostrar={"id"}
+            textoAMostrar={"Seleccione una cuenta"}
+            onSelect={(id) => {
+              console.log("Id:", id);
+              setIdDesplegable(id);
+            }}
+          />
+        </div>
       </div>
       <Boton accion={handleClickTransferencia} nombreAccion="Ver actividad" />
+      <Boton accion={handleVolverClick} nombreAccion="Volver" />
       {mostrarTransferencias && (
         <>
           <ListarArrays
@@ -99,7 +116,7 @@ const Movimientos = ({ cliente }) => {
             array={transferencias.filter(
               (transferencia) => transferencia.cuentaOrigen.id.toString() === id
             )}
-            atributos={["monto", "fecha"]}
+            atributos={["monto", "fecha", "cuentaDestino.cbu"]}
           />
           <br></br>
           <ListarArrays
@@ -108,14 +125,10 @@ const Movimientos = ({ cliente }) => {
               (transferencia) =>
                 transferencia.cuentaDestino.id.toString() === id
             )}
-            atributos={["monto", "fecha"]}
+            atributos={["monto", "fecha", "cuentaOrigen.cbu"]}
           />
         </>
       )}
-      <button type="button" onClick={handleVolverClick}>
-        {" "}
-        Volver{" "}
-      </button>
     </div>
   );
 };
