@@ -27,8 +27,7 @@ const Transferencia = ({ cuentaId, cliente }) => {
   useEffect(() => {
     APIMotivo.GetMotivos()
       .then((data) => {
-        const motivos = data.datos;
-        setMotivos(motivos);
+        setMotivos(data.datos);
       })
       .catch((error) => {
         console.error("Error al obtener los motivos:", error);
@@ -68,14 +67,10 @@ const Transferencia = ({ cuentaId, cliente }) => {
           {mensajeError && <p style={{ color: "red" }}>{mensajeError}</p>}
         </div>
         <div className="col-md-4">
-          <label 
-            htmlFor="inputState" 
-            className="form-label">
+          <label htmlFor="inputState" className="form-label">
             Motivo
           </label>
-          <select 
-            id="inputState" 
-            className="form-select">
+          <select id="inputState" className="form-select">
             <option value="">Seleccionar Motivo</option>
             {motivos.map((motivo) => (
               <option key={motivo.id} value={motivo.id}>
@@ -97,4 +92,3 @@ const Transferencia = ({ cuentaId, cliente }) => {
 };
 
 export default Transferencia;
-

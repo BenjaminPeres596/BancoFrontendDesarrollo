@@ -89,7 +89,7 @@ const Movimientos = () => {
     <div className="Movimiento">
       <div>
         {" "}
-        <h2>¡Transferencias de {userData?.nombre || ""}!</h2>{" "}
+        <h2>¡Transferencias de {userData ? userData.nombre : ""}!</h2>{" "}
       </div>
       <div className="Seleccion">
         <Desplegable
@@ -103,6 +103,7 @@ const Movimientos = () => {
         />
       </div>
       <Boton accion={handleClickTransferencia} nombreAccion="Ver actividad" />
+      <Boton accion={handleVolverClick} nombreAccion="Volver" />
       {mostrarTransferencias && (
         <>
           <ListarArrays
@@ -110,7 +111,7 @@ const Movimientos = () => {
             array={transferencias.filter(
               (transferencia) => transferencia.cuentaOrigen.id.toString() === id
             )}
-            atributos={["monto", "fecha"]}
+            atributos={["monto", "fecha", "cuentaDestino.cbu"]}
           />
           <br></br>
           <ListarArrays
@@ -119,14 +120,10 @@ const Movimientos = () => {
               (transferencia) =>
                 transferencia.cuentaDestino.id.toString() === id
             )}
-            atributos={["monto", "fecha"]}
+            atributos={["monto", "fecha", "cuentaOrigen.cbu"]}
           />
         </>
       )}
-      <button type="button" onClick={handleVolverClick}>
-        {" "}
-        Volver{" "}
-      </button>
     </div>
   );
 };
