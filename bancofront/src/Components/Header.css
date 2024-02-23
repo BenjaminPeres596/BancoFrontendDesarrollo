@@ -1,5 +1,5 @@
 .colorcito {
-    background-color: rgba(59, 94, 160, 0.897);
+    background-color: #3b5ea0e5;
 }
 
 .texto{
@@ -9,6 +9,7 @@
     justify-content: start;
     padding-left: 4rem;
     color: white;
+    white-space: nowrap;
 }
 
 @media (max-width: 991px) {

@@ -54,7 +54,7 @@ const Principal = () => {
     setMostrarSaldo(!mostrarSaldo);
   };
 
-  const handleVolverClick = () => {
+  const handleSalir = () => {
     window.history.back();
   };
   const VerMov = () => {
@@ -84,21 +84,50 @@ const Principal = () => {
           />
         </div>
       </div>
-      {cuentaSeleccionada && (
-        <>
-          <p>
-            Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
-            {mostrarSaldo ? (
-              <FaEye onClick={toggleMostrarSaldo} />
-            ) : (
-              <FaEyeSlash onClick={toggleMostrarSaldo} />
-            )}
-          </p>
-        </>
-      )}
+      <div className="container-fluid text-center">
+        <div className="row justify-content-between">
+          {cuentaSeleccionada && (
+            <>
+              <p className="col-md-3">
+                Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
+                {mostrarSaldo ? (
+                  <FaEye onClick={toggleMostrarSaldo} />
+                ) : (
+                  <FaEyeSlash onClick={toggleMostrarSaldo} />
+                )}
+              </p>
+              <p className="col-md-4">Cbu: {cuentaSeleccionada.cbu}</p>
+            </>
+          )}
+        </div>
+      </div>
       <Boton accion={VerMov} nombreAccion="Ver actividad" />
       <Boton accion={VerTrans} nombreAccion="Realizar transferencia" />
-      <Boton accion={handleVolverClick} nombreAccion="Volver" />
+      <Boton
+        accion={handleSalir}
+        nombreAccion="Salir"
+        onClick={() => navigate("/")}
+      ></Boton>
+
+      {mostrarTransferencias && (
+        <>
+          <ListarArrays
+            nombre="Transferencias realizadas"
+            array={transferencias.filter(
+              (transferencia) => transferencia.cuentaOrigen.id.toString() === id
+            )}
+            atributos={["monto", "fecha"]}
+          />
+          <ListarArrays
+            nombre="Transferencias recibidas"
+            array={transferencias.filter(
+              (transferencia) =>
+                transferencia.cuentaDestino.id.toString() === id
+            )}
+            atributos={["monto", "fecha"]}
+          />
+        </>
+      )}
     </div>
   );
 };
