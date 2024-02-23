@@ -55,7 +55,9 @@ const Principal = () => {
   };
 
   const handleSalir = () => {
-    window.history.back();
+    document.cookie =
+      "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    navigate("/LoginForm");
   };
   const VerMov = () => {
     navigate("/Movimientos");
@@ -78,15 +80,24 @@ const Principal = () => {
             textoAMostrar={"Seleccione una cuenta"}
             textoQueAcompaña={"Cuenta N°:"}
             onSelect={(id) => {
-              console.log("Id:", id.split(":")[1]);
-              setIdDesplegable(id.split(":")[1]);
+              if (id === "") {
+                // Si se selecciona "Seleccione una cuenta", resetea la cuenta seleccionada a null
+                setCuentaSeleccionada(null);
+              } else {
+                const cuentaSeleccionada = cuentas.find(
+                  (cuenta) =>
+                    cuenta.id.toString() === id.split(":")[1].toString()
+                );
+                setIdDesplegable(id.split(":")[1]);
+                setCuentaSeleccionada(cuentaSeleccionada);
+              }
             }}
           />
         </div>
       </div>
       <div className="container-fluid text-center">
         <div className="row justify-content-between">
-          {cuentaSeleccionada && (
+          {cuentaSeleccionada ? (
             <>
               <p className="col-md-3">
                 Saldo {mostrarSaldo ? `$${cuentaSeleccionada.saldo}` : "$***"}
@@ -98,6 +109,10 @@ const Principal = () => {
               </p>
               <p className="col-md-4">Cbu: {cuentaSeleccionada.cbu}</p>
             </>
+          ) : (
+            <p className="col-md-3">
+              Seleccione una cuenta para ver el saldo y el CBU.
+            </p>
           )}
         </div>
       </div>
