@@ -136,13 +136,23 @@ const Transferencia = ({ cuentaId, cliente }) => {
         motivos.find((motivo) => motivo.nombre === motivoId).id
       );
       if (response.exito) {
-        console.log("Transferencia exitosa");
+        // eslint-disable-next-line no-restricted-globals
+        const result = confirm("¿Estás seguro de que deseas continuar con la transferencia?");
+        if (result) {
+          alert("¡Transferencia Exitosa!");
+          console.log("Transferencia exitosa");
+          window.location.reload();
+        } else {
+          console.log("El usuario canceló la transferencia.");
+          alert("Transferencia no realizada");
+        }
       } else {
         console.log("Transferencia fallida:", response.mensaje);
       }
     } catch (error) {
       console.error("Error al transferir:", error);
     }
+    
   };
 
   return (

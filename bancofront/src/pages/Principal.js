@@ -55,9 +55,12 @@ const Principal = () => {
   };
 
   const handleSalir = () => {
-    document.cookie =
-      "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    navigate("/LoginForm");
+    const confirmacion = window.confirm("¿Estás seguro de que deseas cerrar sesión?");
+    if (confirmacion) {
+      document.cookie =
+        "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      navigate("/LoginForm");
+    }
   };
   const VerMov = () => {
     navigate("/Movimientos");
