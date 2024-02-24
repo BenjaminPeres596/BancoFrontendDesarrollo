@@ -4,6 +4,11 @@
   align-items: center;
 }
 
+.table-container {
+  max-height: 250px; /* Ajusta la altura máxima según sea necesario */
+  overflow-y: auto;
+}
+
 .transferenciaItem {
   border: 1px solid #ddd;
   padding: 20px;
