@@ -128,31 +128,36 @@ const Transferencia = ({ cuentaId, cliente }) => {
   const handleTransferir = async (event) => {
     event.preventDefault();
     try {
-      const response = await APITransferencia.postTransferencia(
-        transferencia,
-        cuentaSeleccionada.cbu,
-        cbuDestino,
-        monto,
-        motivos.find((motivo) => motivo.nombre === motivoId).id
-      );
-      if (response.exito) {
-        // eslint-disable-next-line no-restricted-globals
-        const result = confirm("¿Estás seguro de que deseas continuar con la transferencia?");
-        if (result) {
-          alert("¡Transferencia Exitosa!");
-          console.log("Transferencia exitosa");
-          window.location.reload();
-        } else {
-          console.log("El usuario canceló la transferencia.");
-          alert("Transferencia no realizada");
-        }
+      if (monto <= 0) {
+        alert("El monto no puede ser menor a 0.");
       } else {
-        console.log("Transferencia fallida:", response.mensaje);
+        const response = await APITransferencia.postTransferencia(
+          transferencia,
+          cuentaSeleccionada.cbu,
+          cbuDestino,
+          monto,
+          motivos.find((motivo) => motivo.nombre === motivoId).id
+        );
+        if (response.exito) {
+          // eslint-disable-next-line no-restricted-globals
+          const result = confirm(
+            "¿Estás seguro de que deseas continuar con la transferencia?"
+          );
+          if (result) {
+            alert("¡Transferencia Exitosa!");
+            console.log("Transferencia exitosa");
+            window.location.reload();
+          } else {
+            console.log("El usuario canceló la transferencia.");
+            alert("Transferencia no realizada");
+          }
+        } else {
+          console.log("Transferencia fallida:", response.mensaje);
+        }
       }
     } catch (error) {
       console.error("Error al transferir:", error);
     }
-    
   };
 
   return (
@@ -190,7 +195,14 @@ const Transferencia = ({ cuentaId, cliente }) => {
             id="formGroupExampleInput"
             placeholder="$0"
             value={monto}
-            onChange={(e) => setMonto(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value <= 0) {
+                setMonto(0);
+              } else {
+                setMonto(value);
+              }
+            }}
           />
         </div>
         <div className="mb-3">
