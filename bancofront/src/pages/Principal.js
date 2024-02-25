@@ -120,14 +120,14 @@ const Principal = () => {
         </div>
       </div>
         <div className="justify-content-between">
-          <Boton accion={VerMov} nombreAccion="Ver actividad" clases={['col-md-6']} />
-          <Boton accion={VerTrans} nombreAccion="Realizar transferencia" clases={['col-md-6']} />
+          <Boton accion={VerMov} nombreAccion="Ver actividad" clases={['col-5']} />
+          <Boton accion={VerTrans} nombreAccion="Realizar transferencia" clases={['col-5', 'text-truncate']} />
         </div>
         <Boton
           accion={handleSalir}
           nombreAccion="Cerrar Sesion"
           onClick={() => navigate("/")}
-          clases={['fixed-bottom', 'justify-content-end','mb-3', 'mr-3', 'col-md-3']}
+          clases={['fixed-bottom', 'justify-content-end','mb-3', 'mr-3', 'col-3']}
         />
     </div>
   );

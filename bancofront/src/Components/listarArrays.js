@@ -8,32 +8,34 @@ export const ListarArrays = ({ nombre, array, atributos }) => {
       <div className="grilla row">
         <h1 className="col-md-3 text-wrap">{nombre}</h1>
         <div className="transferenciaItem col-md-8">
-          <table className="table">
-            <thead>
-              <tr>
-                {atributos.map((atributo, index) => (
-                  <th key={index}>
-                    {atributo.split(".").pop().charAt(0).toUpperCase() +
-                      atributo.split(".").pop().slice(1)}
-                    :{" "}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {array.map((elemento, index) => (
-                <tr key={index}>
+          <div className="table-container">
+            <table className="table">
+              <thead>
+                <tr>
                   {atributos.map((atributo, index) => (
-                    <td key={index}>
-                      {atributo.includes(".")
-                        ? parseNestedProperty(elemento, atributo)
-                        : elemento[atributo]}
-                    </td>
+                    <th key={index}>
+                      {atributo.split(".").pop().charAt(0).toUpperCase() +
+                        atributo.split(".").pop().slice(1)}
+                      :{" "}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {array.slice(0, 10).map((elemento, index) => (
+                  <tr key={index}>
+                    {atributos.map((atributo, index) => (
+                      <td key={index}>
+                        {atributo.includes(".")
+                          ? parseNestedProperty(elemento, atributo)
+                          : elemento[atributo]}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

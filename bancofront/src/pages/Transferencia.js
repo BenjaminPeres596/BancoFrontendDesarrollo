@@ -219,7 +219,7 @@ const Transferencia = ({ cuentaId, cliente }) => {
           />
           {mensajeError && <p style={{ color: "red" }}>{mensajeError}</p>}
         </div>
-        <div className="col-md-4">
+        <div className="col-md-4 mb-3">
           <Desplegable
             array={motivos}
             atributoAMostrar={"nombre"}
@@ -235,8 +235,8 @@ const Transferencia = ({ cuentaId, cliente }) => {
           />
         </div>
       </div>
-      <Boton accion={handleTransferir} nombreAccion="Transferir" />
-      <Boton accion={() => navigate("/principal")} nombreAccion={"Volver"} />
+      <Boton accion={handleTransferir} nombreAccion="Transferir" clases={['col-6']}/>
+      <Boton accion={() => navigate("/principal")} nombreAccion={"Volver"} clases={['col-3']}/>
     </div>
   );
 };

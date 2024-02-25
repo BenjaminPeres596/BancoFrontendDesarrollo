@@ -90,7 +90,7 @@ const Movimientos = () => {
       <div className="row">
         <div className="p-4 col-md-7">
           {" "}
-          <h2>¡Transferencias de {userData ? userData.nombre : ""}!</h2>{" "}
+          <h2>¡Movimientos de {userData ? userData.nombre : ""}!</h2>{" "}
         </div>
         <div className="Seleccion p-4 col-md-3">
           <Desplegable
@@ -104,8 +104,8 @@ const Movimientos = () => {
           />
         </div>
       </div>
-      <Boton accion={handleClickTransferencia} nombreAccion="Ver actividad" />
-      <Boton accion={handleVolverClick} nombreAccion="Volver" />
+      <Boton accion={handleClickTransferencia} nombreAccion="Ver actividad" clases={["text-truncate", "col-4"]}/>
+      <Boton accion={handleVolverClick} nombreAccion="Volver" clases={["text-truncate", "col-4"]}/>
       {mostrarTransferencias && (
         <>
           <ListarArrays
