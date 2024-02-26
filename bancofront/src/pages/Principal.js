@@ -55,14 +55,19 @@ const Principal = () => {
   };
 
   const handleSalir = () => {
-    const confirmacion = window.confirm("¿Estás seguro de que deseas cerrar sesión?");
+    const confirmacion = window.confirm(
+      "¿Estás seguro de que deseas cerrar sesión?"
+    );
     if (confirmacion) {
       document.cookie =
-        "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+      document.cookie =
+        "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/Registro";
       navigate("/LoginForm");
     }
   };
   const VerMov = () => {
+    console.log("Datos:", userData);
     navigate("/Movimientos");
   };
 
@@ -119,16 +124,30 @@ const Principal = () => {
           )}
         </div>
       </div>
-        <div className="justify-content-between">
-          <Boton accion={VerMov} nombreAccion="Ver actividad" clases={['col-5']} />
-          <Boton accion={VerTrans} nombreAccion="Realizar transferencia" clases={['col-5', 'text-truncate']} />
-        </div>
+      <div className="justify-content-between">
         <Boton
-          accion={handleSalir}
-          nombreAccion="Cerrar Sesion"
-          onClick={() => navigate("/")}
-          clases={['fixed-bottom', 'justify-content-end','mb-3', 'mr-3', 'col-3']}
+          accion={VerMov}
+          nombreAccion="Ver actividad"
+          clases={["col-5"]}
         />
+        <Boton
+          accion={VerTrans}
+          nombreAccion="Realizar transferencia"
+          clases={["col-5", "text-truncate"]}
+        />
+      </div>
+      <Boton
+        accion={handleSalir}
+        nombreAccion="Cerrar Sesion"
+        onClick={() => navigate("/")}
+        clases={[
+          "fixed-bottom",
+          "justify-content-end",
+          "mb-3",
+          "mr-3",
+          "col-3",
+        ]}
+      />
     </div>
   );
 };

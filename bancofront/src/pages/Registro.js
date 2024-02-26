@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./LoginForm/LoginForm.css";
 import { CiUser } from "react-icons/ci";
 import {
@@ -8,10 +8,13 @@ import {
   FaUserCircle,
 } from "react-icons/fa";
 import * as APICliente from "../services/cliente";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import * as APICuenta from "../services/cuenta";
 
 export const Registro = ({ cliente, setCliente }) => {
+  const location = useLocation();
+  const [valido, setValido] = useState(true);
+
   const [cuenta, setCuenta] = useState({
     id: 0,
     cbu: "string",
@@ -45,47 +48,114 @@ export const Registro = ({ cliente, setCliente }) => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const code = params.get("queryparameter");
+    document.cookie = `authCode=${encodeURIComponent(
+      JSON.stringify(code)
+    )}; Secure=true; SameSite=Strict; path=/`;
+    const cookieData = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("renaper"));
+    if (cookieData) {
+      const renaper = JSON.parse(decodeURIComponent(cookieData.split("=")[1]));
+      if (renaper == true) {
+        navigate("/LoginForm");
+      }
+    }
+    console.log(code);
+    if (code == null) {
+      window.location.href =
+        "https://colosal.duckdns.org:15001/SRVP/?client=Bancogeneracion";
+    } else {
+    }
+  }, [location.search, navigate]);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setCliente((prevCliente) => ({
       ...prevCliente,
       [name]: value,
     }));
+    console.log(cliente);
   };
 
   const handleVolverClick = () => {
-    window.history.back();
+    navigate("/LoginForm");
   };
 
   const handleRegistro = async (event) => {
     event.preventDefault();
     try {
-      console.log(cliente);
-      const responseCliente = await APICliente.PostCliente(cliente);
-      console.log("Rcliente:", responseCliente);
-      console.log("Cliente:", cliente);
-      const responseCuenta = await APICuenta.PostCuenta(cuenta, cliente.dni);
-      console.log("Rcuenta:", responseCuenta);
-      if (responseCliente.exito && responseCuenta.exito) {
-        if (responseCliente.datos && responseCliente.datos.id) {
-          const { id, nombre, apellido, usuario, clave, dni, mail } =
-            responseCliente.datos;
-          setCliente((prevCliente) => ({
-            ...prevCliente,
-            id,
-            nombre,
-            apellido,
-            usuario,
-            clave,
-            dni,
-            mail,
-          }));
+      if (valido) {
+        const cookieData = document.cookie
+          .split(";")
+          .find((cookie) => cookie.trim().startsWith("authCode="));
+
+        if (cookieData) {
+          const authCode = JSON.parse(
+            decodeURIComponent(cookieData.split("=")[1])
+          );
+          const responseRenaper = await APICliente.AuthRenaper(authCode);
+          if (responseRenaper.exito === true) {
+            setValido(false);
+            if (responseRenaper.datos.estado === true) {
+              console.log(cliente);
+              if (
+                responseRenaper.datos.cuil.substring(
+                  responseRenaper.datos.cuil.length - 9,
+                  responseRenaper.datos.cuil.length - 1
+                ) === cliente.dni
+              ) {
+                const responseCliente = await APICliente.PostCliente(cliente);
+                console.log("Rcliente:", responseCliente);
+                console.log("Cliente:", cliente);
+                const responseCuenta = await APICuenta.PostCuenta(
+                  cuenta,
+                  cliente.dni
+                );
+                console.log("Rcuenta:", responseCuenta);
+                if (responseCliente.exito && responseCuenta.exito) {
+                  if (responseCliente.datos && responseCliente.datos.id) {
+                    const { id, nombre, apellido, usuario, clave, dni, mail } =
+                      responseCliente.datos;
+                    setCliente((prevCliente) => ({
+                      ...prevCliente,
+                      id,
+                      nombre,
+                      apellido,
+                      usuario,
+                      clave,
+                      dni,
+                      mail,
+                    }));
+                  }
+                  document.cookie = `userData=${encodeURIComponent(
+                    JSON.stringify(cliente)
+                  )}; Secure; SameSite=Strict; path=/`;
+
+                  navigate("/Principal");
+                  console.log("Registro exitoso");
+                } else {
+                  console.log(
+                    "Registro fallido cliente:",
+                    responseCliente.mensaje
+                  );
+                  console.log(
+                    "Registro fallido cuenta:",
+                    responseCuenta.mensaje
+                  );
+                }
+              } else {
+                console.log(
+                  "El dni del usuario del Renaper no coincide con el ingresado en el registro."
+                );
+              }
+            }
+          }
         }
-        navigate("/Principal");
-        console.log("Registro exitoso");
       } else {
-        console.log("Registro fallido cliente:", responseCliente.mensaje);
-        console.log("Registro fallido cuenta:", responseCuenta.mensaje);
+        console.log("Vuelva a validarse con el renaper");
       }
     } catch (error) {
       console.error("Error al registrarse:", error);
@@ -113,7 +183,7 @@ export const Registro = ({ cliente, setCliente }) => {
                     value={cliente.nombre}
                     onChange={handleChange}
                   />
-                  <FaRegNewspaper className="icon"/>
+                  <FaRegNewspaper className="icon" />
                 </div>
               </div>
               <div className="col-md-6">
@@ -128,7 +198,7 @@ export const Registro = ({ cliente, setCliente }) => {
                     value={cliente.apellido}
                     onChange={handleChange}
                   />
-                  <CiUser className="icon"/>
+                  <CiUser className="icon" />
                 </div>
               </div>
               <div className="col-md-6">
@@ -144,7 +214,7 @@ export const Registro = ({ cliente, setCliente }) => {
                     value={cliente.dni}
                     onChange={handleChange}
                   />
-                  <FaRegNewspaper className="icon"/>
+                  <FaRegNewspaper className="icon" />
                 </div>
               </div>
               <div className="col-md-6">
@@ -174,7 +244,7 @@ export const Registro = ({ cliente, setCliente }) => {
                     value={cliente.clave}
                     onChange={handleChange}
                   />
-                  <FaLock className="icon"/>
+                  <FaLock className="icon" />
                 </div>
               </div>
               <div className="col-md-6">
@@ -189,15 +259,23 @@ export const Registro = ({ cliente, setCliente }) => {
                     value={cliente.mail}
                     onChange={handleChange}
                   />
-                  <FaEnvelopeOpen className="icon"/>
+                  <FaEnvelopeOpen className="icon" />
                 </div>
               </div>
               <div className="col-12">
                 <div className="button-row justify-content-evenly mt-3">
-                  <button type="button" className="btn btn-secondary text-truncate" onClick={handleVolverClick}>
+                  <button
+                    type="button"
+                    className="btn btn-secondary text-truncate"
+                    onClick={handleVolverClick}
+                  >
                     Volver
                   </button>
-                  <button type="submit" className="btn btn-primary text-truncate" onClick={handleRegistro}>
+                  <button
+                    type="submit"
+                    className="btn btn-primary text-truncate"
+                    onClick={handleRegistro}
+                  >
                     Registrarse
                   </button>
                 </div>

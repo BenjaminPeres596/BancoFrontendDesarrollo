@@ -25,3 +25,14 @@ export async function PostCliente(cliente) {
     console.error(error);
   }
 }
+
+export async function AuthRenaper(authCode) {
+  try {
+    const response = await axios.post(
+      `${API_URL}/Cliente/AuthRenaper=${authCode}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
