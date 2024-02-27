@@ -50,6 +50,15 @@ const Principal = () => {
     console.log(cuentaSeleccionada);
   }, [cuentas, id]);
 
+  useEffect(() => {
+    if (userData && cuentas.length > 0) {
+      setCuentaSeleccionada(cuentas[0]); // Selecciona automáticamente la primera cuenta
+      setIdDesplegable(cuentas[0].id); // Establece automáticamente el ID de la primera cuenta
+      document.cookie = `cuentaSeleccionada=${encodeURIComponent(JSON.stringify(cuentas[0]))}; expires=Thu, 31 Dec 2024 23:59:59 UTC; path=/;`;
+    }
+  }, [userData, cuentas]);
+  
+
   const toggleMostrarSaldo = () => {
     setMostrarSaldo(!mostrarSaldo);
   };
@@ -85,13 +94,9 @@ const Principal = () => {
           <Desplegable
             array={cuentas}
             atributoAMostrar={"id"}
-            textoAMostrar={"Seleccione una cuenta"}
             textoQueAcompaña={"Cuenta N°:"}
             onSelect={(id) => {
-              if (id === "") {
-                setCuentaSeleccionada(null);
-                document.cookie = "cuentaSeleccionada=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-              } else {
+
                 const cuentaSeleccionada = cuentas.find(
                   (cuenta) =>
                     cuenta.id.toString() === id.split(":")[1].toString()
@@ -102,7 +107,7 @@ const Principal = () => {
                 setIdDesplegable(id.split(":")[1]);
                 setCuentaSeleccionada(cuentaSeleccionada);
                  document.cookie = `cuentaSeleccionada=${encodeURIComponent(JSON.stringify(cuentaSeleccionada))}; expires=Thu, 31 Dec 2024 23:59:59 UTC; path=/;`;
-              }
+              
             }}
           />
         </div>

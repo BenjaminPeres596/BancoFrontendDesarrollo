@@ -219,10 +219,10 @@ const Transferencia = ({ cuentaId, cliente }) => {
           {mensajeError && <p style={{ color: "red" }}>{mensajeError}</p>}
         </div>
         <div className="col-md-4 mb-3">
+          Seleccione un motivo
           <Desplegable
             array={motivos}
             atributoAMostrar={"nombre"}
-            textoAMostrar={"Seleccione un motivo"}
             textoQueAcompaña={""}
             onSelect={(motivoId) => {
               console.log("Motivo seleccionado:", motivoId);

@@ -1,7 +1,6 @@
 export const Desplegable = ({
   array,
   atributoAMostrar,
-  textoAMostrar,
   textoQueAcompaña,
   onSelect,
 }) => {
@@ -19,7 +18,6 @@ export const Desplegable = ({
         name="elementoArrayId"
         onChange={handleNroCuentaChange}
       >
-        <option value="">{textoAMostrar}</option>
         {array
           .sort((a, b) => a.id - b.id)
           .map((elementoArray) => (
