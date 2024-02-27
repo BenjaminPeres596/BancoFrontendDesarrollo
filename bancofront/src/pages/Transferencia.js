@@ -150,6 +150,11 @@ const Transferencia = ({ cuentaId, cliente }) => {
   const handleTransferir = async (event) => {
     event.preventDefault();
     try {
+      if (!monto || !cbuDestino || !motivoId) {
+        alert("Complete todos los campos");
+        return;
+      }
+     
       if (monto <= 0) {
         alert("El monto no puede ser menor a 0.");
       } else {
@@ -188,7 +193,7 @@ const Transferencia = ({ cuentaId, cliente }) => {
         <h3>Realizar Transferencia</h3>
         <div className="mb-3">
         <div>
-            <u>Cuenta origen:</u><strong> {OrigenId}</strong>
+            <u>Cuenta origen N°:</u><strong> {OrigenId}</strong>
         </div>
         </div>
         <div className="mb-3">

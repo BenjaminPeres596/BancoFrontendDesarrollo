@@ -133,7 +133,7 @@ const Principal = () => {
           )}
         </div>
       </div>
-      <div className="justify-content-between">
+      <div className="d-flex justify-content-center">
         <Boton
           accion={VerMov}
           nombreAccion="Ver actividad"

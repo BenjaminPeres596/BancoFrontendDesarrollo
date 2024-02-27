@@ -76,7 +76,8 @@ const Movimientos = () => {
           <h2>¡Movimientos de {userData ? userData.nombre : ""}!</h2>
         </div>
         <div className="Seleccion p-4 col-md-3">
-        <u>Cuenta:</u><strong> { id}</strong>
+          <u className="fs-5">Cuenta N°:</u>
+          <strong className="fs-5">{id}</strong>
         </div>
       </div>
 
