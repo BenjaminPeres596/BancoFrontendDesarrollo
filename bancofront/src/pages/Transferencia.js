@@ -128,7 +128,6 @@ const Transferencia = ({ cuentaId, cliente }) => {
         });
     }
   }, [userData]);
-
   useEffect(() => {
     APIMotivo.GetMotivos()
       .then((data) => {
@@ -137,8 +136,16 @@ const Transferencia = ({ cuentaId, cliente }) => {
       .catch((error) => {
         console.error("Error al obtener los motivos:", error);
       });
-    console.log(motivos);
   }, []);
+  
+  useEffect(() => {
+    if (motivos.length > 0) {
+      const ultimoMotivoId = motivos[motivos.length - 1].id;
+      document.getElementById('floatingSelect').value = ultimoMotivoId;
+      setMotivoId(ultimoMotivoId);
+    }
+  }, [motivos]);
+  
 
   const handleTransferir = async (event) => {
     event.preventDefault();
