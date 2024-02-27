@@ -8,6 +8,7 @@ import { Desplegable } from "../Components/desplegable";
 import * as APITransferencia from "../services/transferencia";
 
 const Transferencia = ({ cuentaId, cliente }) => {
+  const [OrigenId, setOrigenId] = useState(null);
   const [monto, setMonto] = useState("");
   const [motivos, setMotivos] = useState([]);
   const [cuentas, setCuentas] = useState([]);
@@ -92,6 +93,20 @@ const Transferencia = ({ cuentaId, cliente }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Leer la cookie cuando la ventana se carga
+    const cookieData = document.cookie
+      .split(";")
+      .find((cookie) => cookie.trim().startsWith("cuentaSeleccionada="));
+  
+    if (cookieData) {
+      const cuentaSeleccionada = JSON.parse(decodeURIComponent(cookieData.split("=")[1]));
+      const id = cuentaSeleccionada.id;
+      setOrigenId(id); // Establecer el ID de la cuenta en el estado
+      setCuentaSeleccionada(cuentaSeleccionada);
+    }
+  }, []);
+  
+  useEffect(() => {
     const cookieData = document.cookie
       .split(";")
       .find((cookie) => cookie.trim().startsWith("userData="));
@@ -165,25 +180,9 @@ const Transferencia = ({ cuentaId, cliente }) => {
       <div className="row">
         <h3>Realizar Transferencia</h3>
         <div className="mb-3">
-          <Desplegable
-            array={cuentas}
-            atributoAMostrar={"id"}
-            textoAMostrar={"Seleccione una cuenta"}
-            textoQueAcompaña={"Cuenta N°:"}
-            onSelect={(id) => {
-              if (id === "") {
-                // Si se selecciona "Seleccione una cuenta", resetea la cuenta seleccionada a null
-                setCuentaSeleccionada(null);
-              } else {
-                const cuentaSeleccionada = cuentas.find(
-                  (cuenta) =>
-                    cuenta.id.toString() === id.split(":")[1].toString()
-                );
-                setIdDesplegable(id.split(":")[1]);
-                setCuentaSeleccionada(cuentaSeleccionada);
-              }
-            }}
-          />
+        <div>
+            <u>Cuenta origen:</u><strong> {OrigenId}</strong>
+        </div>
         </div>
         <div className="mb-3">
           <label htmlFor="formGroupExampleInput" className="form-label">

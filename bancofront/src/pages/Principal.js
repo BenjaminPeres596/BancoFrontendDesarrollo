@@ -89,8 +89,8 @@ const Principal = () => {
             textoQueAcompaña={"Cuenta N°:"}
             onSelect={(id) => {
               if (id === "") {
-                // Si se selecciona "Seleccione una cuenta", resetea la cuenta seleccionada a null
                 setCuentaSeleccionada(null);
+                document.cookie = "cuentaSeleccionada=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
               } else {
                 const cuentaSeleccionada = cuentas.find(
                   (cuenta) =>
@@ -98,6 +98,10 @@ const Principal = () => {
                 );
                 setIdDesplegable(id.split(":")[1]);
                 setCuentaSeleccionada(cuentaSeleccionada);
+
+                setIdDesplegable(id.split(":")[1]);
+                setCuentaSeleccionada(cuentaSeleccionada);
+                 document.cookie = `cuentaSeleccionada=${encodeURIComponent(JSON.stringify(cuentaSeleccionada))}; expires=Thu, 31 Dec 2024 23:59:59 UTC; path=/;`;
               }
             }}
           />
