@@ -30,7 +30,7 @@ const Principal = () => {
 
   useEffect(() => {
     if (userData) {
-      APICuenta.GetCuentas(userData.dni)
+      APICuenta.GetCuentas(userData.cuil)
         .then((data) => {
           setCuentas(data.datos);
         })

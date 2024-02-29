@@ -2,10 +2,10 @@ import axios from "axios";
 
 const API_URL = "https://colosal.duckdns.org:15001/BancoGeneracion";
 
-export async function LoginAuth(dni, usuario, contraseña) {
+export async function LoginAuth(cuil, usuario, contraseña) {
   try {
     const response = await axios.post(
-      `${API_URL}/Cliente/LoginAuth=${dni},${usuario},${contraseña}`
+      `${API_URL}/Cliente/LoginAuth=${cuil},${usuario},${contraseña}`
     );
     return response.data;
   } catch (error) {

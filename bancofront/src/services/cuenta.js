@@ -2,10 +2,10 @@ import axios from "axios";
 
 const API_URL = "https://colosal.duckdns.org:15001/BancoGeneracion";
 
-export async function GetCuentas(dni) {
+export async function GetCuentas(cuil) {
   try {
     const response = await axios.get(
-      `${API_URL}/Cuenta/GetCuentasPorDni=${dni}`
+      `${API_URL}/Cuenta/GetCuentasPorCuil=${cuil}`
     );
     return response.data;
   } catch (error) {
@@ -13,9 +13,9 @@ export async function GetCuentas(dni) {
   }
 }
 
-export async function PostCuenta(cuenta, dni) {
+export async function PostCuenta(cuenta, cuil) {
   try {
-    const response = await axios.post(`${API_URL}/Cuenta/Post=${dni}`, cuenta, {
+    const response = await axios.post(`${API_URL}/Cuenta/Post=${cuil}`, cuenta, {
       headers: {
         "Content-Type": "application/json; charset=utf-8",
       },
@@ -25,3 +25,5 @@ export async function PostCuenta(cuenta, dni) {
     console.error(error);
   }
 }
+
+

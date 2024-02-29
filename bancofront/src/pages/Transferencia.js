@@ -36,7 +36,7 @@ const Transferencia = ({ cuentaId, cliente }) => {
         usuario: "string",
         clave: "string",
         sal: "string",
-        dni: 0,
+        cuil: 0,
         mail: "string",
         bancoId: 0,
         banco: {
@@ -67,7 +67,7 @@ const Transferencia = ({ cuentaId, cliente }) => {
         usuario: "string",
         clave: "string",
         sal: "string",
-        dni: 0,
+        cuil: 0,
         mail: "string",
         bancoId: 0,
         banco: {
@@ -119,7 +119,7 @@ const Transferencia = ({ cuentaId, cliente }) => {
 
   useEffect(() => {
     if (userData) {
-      APICuenta.GetCuentas(userData.dni)
+      APICuenta.GetCuentas(userData.cuil)
         .then((data) => {
           setCuentas(data.datos);
         })
@@ -158,13 +158,23 @@ const Transferencia = ({ cuentaId, cliente }) => {
       if (monto <= 0) {
         alert("El monto no puede ser menor a 0.");
       } else {
-        const response = await APITransferencia.postTransferencia(
-          transferencia,
-          cuentaSeleccionada.cbu,
-          cbuDestino,
-          monto,
-          motivos.find((motivo) => motivo.nombre === motivoId).id
-        );
+          if (cbuDestino.substring(0, 10) === "0000000003"){
+          const response = await APITransferencia.postTransferencia(
+            transferencia,
+            cuentaSeleccionada.cbu,
+            cbuDestino,
+            monto,
+            motivos.find((motivo) => motivo.nombre === motivoId).id
+          );
+        } else if (cbuDestino.substring(0, 10) === "0000000001"){
+          const response = await APITransferencia.postTransferenciaExterna(
+            transferencia,
+            cuentaSeleccionada.cbu,
+            cbuDestino,
+            monto,
+            motivos.find((motivo) => motivo.nombre === motivoId).id
+          );
+        }
         if (response.exito) {
           // eslint-disable-next-line no-restricted-globals
           const result = confirm(
