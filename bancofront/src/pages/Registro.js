@@ -98,58 +98,37 @@ export const Registro = ({ cliente, setCliente }) => {
           const responseRenaper = await APICliente.AuthRenaper(authCode);
           if (responseRenaper.exito === true) {
             setValido(false);
-            if (responseRenaper.datos.estado === true) {
-              console.log(cliente);
-              if (
-                responseRenaper.datos.cuil.substring(
-                  responseRenaper.datos.cuil.length - 9,
-                  responseRenaper.datos.cuil.length - 1
-                ) === cliente.dni
-              ) {
-                const responseCliente = await APICliente.PostCliente(cliente);
-                console.log("Rcliente:", responseCliente);
-                console.log("Cliente:", cliente);
-                const responseCuenta = await APICuenta.PostCuenta(
-                  cuenta,
-                  cliente.dni
-                );
-                console.log("Rcuenta:", responseCuenta);
-                if (responseCliente.exito && responseCuenta.exito) {
-                  if (responseCliente.datos && responseCliente.datos.id) {
-                    const { id, nombre, apellido, usuario, clave, dni, mail } =
-                      responseCliente.datos;
-                    setCliente((prevCliente) => ({
-                      ...prevCliente,
-                      id,
-                      nombre,
-                      apellido,
-                      usuario,
-                      clave,
-                      dni,
-                      mail,
-                    }));
-                  }
-                  document.cookie = `userData=${encodeURIComponent(
-                    JSON.stringify(cliente)
-                  )}; Secure; SameSite=Strict; path=/`;
-
-                  navigate("/Principal");
-                  console.log("Registro exitoso");
-                } else {
-                  console.log(
-                    "Registro fallido cliente:",
-                    responseCliente.mensaje
-                  );
-                  console.log(
-                    "Registro fallido cuenta:",
-                    responseCuenta.mensaje
-                  );
-                }
-              } else {
-                console.log(
-                  "El dni del usuario del Renaper no coincide con el ingresado en el registro."
-                );
+            const responseCliente = await APICliente.PostCliente(cliente);
+            console.log("Rcliente:", responseCliente);
+            console.log("Cliente:", cliente);
+            const responseCuenta = await APICuenta.PostCuenta(
+              cuenta,
+              cliente.cuil
+            );
+            console.log("Rcuenta:", responseCuenta);
+            if (responseCliente.exito && responseCuenta.exito) {
+              if (responseCliente.datos && responseCliente.datos.id) {
+                const { id, nombre, apellido, usuario, clave, cuil, mail } =
+                  responseCliente.datos;
+                setCliente((prevCliente) => ({
+                  ...prevCliente,
+                  id,
+                  nombre,
+                  apellido,
+                  usuario,
+                  clave,
+                  cuil,
+                  mail,
+                }));
               }
+              document.cookie = `userData=${encodeURIComponent(
+                JSON.stringify(cliente)
+              )}; Secure; SameSite=Strict; path=/`;
+              console.log("Registro exitoso");
+              navigate("/LoginForm");
+            } else {
+              console.log("Registro fallido cliente:", responseCliente.mensaje);
+              console.log("Registro fallido cuenta:", responseCuenta.mensaje);
             }
           }
         }
@@ -205,12 +184,12 @@ export const Registro = ({ cliente, setCliente }) => {
                   <input
                     type="text"
                     className="form-control"
-                    id="inputDocumento"
-                    placeholder="Documento"
+                    id="inputCuil"
+                    placeholder="Cuil"
                     pattern="[0-9]*"
                     required
-                    name="dni"
-                    value={cliente.dni}
+                    name="cuil"
+                    value={cliente.cuil}
                     onChange={handleChange}
                   />
                   <FaRegNewspaper className="icon" />
