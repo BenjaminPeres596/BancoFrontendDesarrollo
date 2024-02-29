@@ -11,9 +11,41 @@ const Principal = () => {
   const [cuentas, setCuentas] = useState([]);
   const [cuentaSeleccionada, setCuentaSeleccionada] = useState(null);
   const [id, setIdDesplegable] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState({});
   const [mostrarSaldo, setMostrarSaldo] = useState(true);
 
+
+
+  const cuenta = useState({
+    id: 0,
+    cbu: 0,
+    fechaAlta: "string",
+    saldo: 0,
+    clienteId: 0,
+    cliente: {
+      id: 0,
+      nombre: "string",
+      apellido: "string",
+      usuario: "string",
+      clave: "string",
+      sal: "string",
+      dni: 0,
+      mail: "string",
+      bancoId: 0,
+      banco: {
+        id: 0,
+        razonSocial: "string",
+        telefono: 0,
+        calle: "string",
+        numero: 0,
+      },
+    },
+    tipoCuentaId: 1,
+    tipoCuenta: {
+      id: 0,
+      nombre: "string",
+    },
+  })
 
   useEffect(() => {
     const cookieData = document.cookie
@@ -31,7 +63,7 @@ const Principal = () => {
 
   useEffect(() => {
     if (userData) {
-      APICuenta.GetCuentas(userData.cuil)
+        APICuenta.GetCuentas(userData.cuil)
         .then((data) => {
           setCuentas(data.datos);
         })
@@ -48,7 +80,6 @@ const Principal = () => {
       );
       setCuentaSeleccionada(cuentaSeleccionada);
     }
-    console.log(cuentaSeleccionada);
   }, [cuentas, id]);
 
   useEffect(() => {
@@ -58,7 +89,7 @@ const Principal = () => {
       document.cookie = `cuentaSeleccionada=${encodeURIComponent(JSON.stringify(cuentas[0]))}; expires=Thu, 31 Dec 2024 23:59:59 UTC; path=/;`;
     }
   }, [userData, cuentas]);
-  
+
 
   const toggleMostrarSaldo = () => {
     setMostrarSaldo(!mostrarSaldo);
@@ -88,7 +119,7 @@ const Principal = () => {
   const handleCrearCuenta = async () => {
     try {
       // Lógica para crear una nueva cuenta utilizando la API
-      const nuevaCuenta = await APICuenta.PostCuenta(userData.cuil);
+      const nuevaCuenta = await APICuenta.PostCuenta(cuenta, userData.cuil);
       console.log("Nueva cuenta creada:", nuevaCuenta);
       // Puedes realizar acciones adicionales después de crear la cuenta si es necesario
     } catch (error) {
@@ -119,7 +150,7 @@ const Principal = () => {
                 setIdDesplegable(id.split(":")[1]);
                 setCuentaSeleccionada(cuentaSeleccionada);
                  document.cookie = `cuentaSeleccionada=${encodeURIComponent(JSON.stringify(cuentaSeleccionada))}; expires=Thu, 31 Dec 2024 23:59:59 UTC; path=/;`;
-              
+
             }}
           />
         </div>
@@ -149,17 +180,17 @@ const Principal = () => {
         <Boton
           accion={VerMov}
           nombreAccion="Ver actividad"
-          clases={["col-5"]}
+          clases={["col-3"]}
         />
         <Boton
           accion={VerTrans}
           nombreAccion="Realizar transferencia"
-          clases={["col-5", "text-truncate"]}
+          clases={["col-3", "text-truncate"]}
         />
         <Boton
         accion={handleCrearCuenta}
         nombreAccion="Crear nueva cuenta"
-        clases={["col-5", "text-truncate"]}
+        clases={["col-3", "text-truncate"]}
       />
       </div>
       <Boton

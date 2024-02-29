@@ -77,7 +77,6 @@ export const Registro = ({ cliente, setCliente }) => {
       ...prevCliente,
       [name]: value,
     }));
-    console.log(cliente);
   };
 
   const handleVolverClick = () => {

@@ -13,9 +13,10 @@ export async function GetCuentas(cuil) {
   }
 }
 
-export async function PostCuenta(cuil) {
+export async function PostCuenta(cuenta, cuil) {
   try {
-    const response = await axios.post(`${API_URL}/Cuenta/Post`, { cuil }, {
+    const response = await axios.post(`${API_URL}/Cuenta/Post=${cuil}`, cuenta,
+    {
       headers: {
         "Content-Type": "application/json; charset=utf-8",
       },

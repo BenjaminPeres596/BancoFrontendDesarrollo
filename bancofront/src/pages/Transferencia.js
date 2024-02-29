@@ -149,6 +149,7 @@ const Transferencia = ({ cuentaId, cliente }) => {
 
   const handleTransferir = async (event) => {
     event.preventDefault();
+    let response;
     try {
       if (!monto || !cbuDestino || !motivoId) {
         alert("Complete todos los campos");
