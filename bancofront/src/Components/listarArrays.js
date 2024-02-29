@@ -22,20 +22,17 @@ export const ListarArrays = ({ nombre, array, atributos }) => {
                 </tr>
               </thead>
               <tbody>
-                {array
-                  .slice()
-                  .reverse()
-                  .map((elemento, index) => (
-                    <tr key={index}>
-                      {atributos.map((atributo, index) => (
-                        <td key={index}>
-                          {atributo.includes(".")
-                            ? parseNestedProperty(elemento, atributo)
-                            : elemento[atributo]}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
+                {array.slice(0, 10).map((elemento, index) => (
+                  <tr key={index}>
+                    {atributos.map((atributo, index) => (
+                      <td key={index}>
+                        {atributo.includes(".")
+                          ? parseNestedProperty(elemento, atributo)
+                          : elemento[atributo]}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

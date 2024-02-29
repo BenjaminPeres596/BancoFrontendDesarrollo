@@ -21,7 +21,7 @@ const Transferencia = ({ cuentaId, cliente }) => {
   const [transferencia, setTransferencia] = useState({
     id: 0,
     monto: 0,
-    fecha: new Date().toISOString(),
+    fecha: "2024-02-23T22:27:37.428Z",
     cuentaOrigenId: 0,
     cuentaOrigen: {
       id: 0,
@@ -97,17 +97,15 @@ const Transferencia = ({ cuentaId, cliente }) => {
     const cookieData = document.cookie
       .split(";")
       .find((cookie) => cookie.trim().startsWith("cuentaSeleccionada="));
-
+  
     if (cookieData) {
-      const cuentaSeleccionada = JSON.parse(
-        decodeURIComponent(cookieData.split("=")[1])
-      );
+      const cuentaSeleccionada = JSON.parse(decodeURIComponent(cookieData.split("=")[1]));
       const id = cuentaSeleccionada.id;
       setOrigenId(id); // Establecer el ID de la cuenta en el estado
       setCuentaSeleccionada(cuentaSeleccionada);
     }
   }, []);
-
+  
   useEffect(() => {
     const cookieData = document.cookie
       .split(";")
@@ -139,14 +137,15 @@ const Transferencia = ({ cuentaId, cliente }) => {
         console.error("Error al obtener los motivos:", error);
       });
   }, []);
-
+  
   useEffect(() => {
     if (motivos.length > 0) {
       const ultimoMotivoId = motivos[motivos.length - 1].id;
-      document.getElementById("floatingSelect").value = ultimoMotivoId;
+      document.getElementById('floatingSelect').value = ultimoMotivoId;
       setMotivoId(ultimoMotivoId);
     }
   }, [motivos]);
+  
 
   const handleTransferir = async (event) => {
     event.preventDefault();
@@ -155,7 +154,7 @@ const Transferencia = ({ cuentaId, cliente }) => {
         alert("Complete todos los campos");
         return;
       }
-
+     
       if (monto <= 0) {
         alert("El monto no puede ser menor a 0.");
       } else {
@@ -193,10 +192,9 @@ const Transferencia = ({ cuentaId, cliente }) => {
       <div className="row">
         <h3>Realizar Transferencia</h3>
         <div className="mb-3">
-          <div>
-            <u>Cuenta origen N°:</u>
-            <strong> {OrigenId}</strong>
-          </div>
+        <div>
+            <u>Cuenta origen N°:</u><strong> {OrigenId}</strong>
+        </div>
         </div>
         <div className="mb-3">
           <label htmlFor="formGroupExampleInput" className="form-label">
@@ -248,16 +246,8 @@ const Transferencia = ({ cuentaId, cliente }) => {
           />
         </div>
       </div>
-      <Boton
-        accion={handleTransferir}
-        nombreAccion="Transferir"
-        clases={["col-6"]}
-      />
-      <Boton
-        accion={() => navigate("/principal")}
-        nombreAccion={"Volver"}
-        clases={["col-3"]}
-      />
+      <Boton accion={handleTransferir} nombreAccion="Transferir" clases={['col-6']}/>
+      <Boton accion={() => navigate("/principal")} nombreAccion={"Volver"} clases={['col-3']}/>
     </div>
   );
 };
