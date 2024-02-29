@@ -14,6 +14,7 @@ const Principal = () => {
   const [userData, setUserData] = useState(null);
   const [mostrarSaldo, setMostrarSaldo] = useState(true);
 
+
   useEffect(() => {
     const cookieData = document.cookie
       .split(";")
@@ -84,6 +85,17 @@ const Principal = () => {
     navigate("/Transferencia");
   };
 
+  const handleCrearCuenta = async () => {
+    try {
+      // Lógica para crear una nueva cuenta utilizando la API
+      const nuevaCuenta = await APICuenta.PostCuenta(userData.cuil);
+      console.log("Nueva cuenta creada:", nuevaCuenta);
+      // Puedes realizar acciones adicionales después de crear la cuenta si es necesario
+    } catch (error) {
+      console.error("Error al crear una nueva cuenta:", error);
+    }
+  };
+
   return (
     <div className="container-fluid">
       <div className="row justify-content-between p-5 px-5">
@@ -144,6 +156,11 @@ const Principal = () => {
           nombreAccion="Realizar transferencia"
           clases={["col-5", "text-truncate"]}
         />
+        <Boton
+        accion={handleCrearCuenta}
+        nombreAccion="Crear nueva cuenta"
+        clases={["col-5", "text-truncate"]}
+      />
       </div>
       <Boton
         accion={handleSalir}

@@ -4,9 +4,6 @@ import "./LoginForm.css";
 import { CiUser } from "react-icons/ci";
 import { FaLock, FaRegNewspaper } from "react-icons/fa";
 import * as APICliente from "../../services/cliente";
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-import { show_alerta } from '../functions';
 
 const LoginForm = ({ cliente, setCliente }) => {
   const navigate = useNavigate();
@@ -64,9 +61,8 @@ const LoginForm = ({ cliente, setCliente }) => {
           } else {
               console.log(
                 "Inicio de sesión fallido:",
-                response.mensajePublico
+                response.Mensaje
               );
-              show_alerta('Inicio de sesion fallido','info');
             }
         }
       }
