@@ -96,66 +96,40 @@ export const Registro = ({ cliente, setCliente }) => {
           const authCode = JSON.parse(
             decodeURIComponent(cookieData.split("=")[1])
           );
-          const responseRenaper = await APICliente.AuthRenaper(authCode);
-          if (responseRenaper.exito === true) {
-            setValido(false);
-            if (responseRenaper.datos.estado === true) {
-              console.log(cliente);
-              if (
-                responseRenaper.datos.cuil.substring(
-                  responseRenaper.datos.cuil.length - 9,
-                  responseRenaper.datos.cuil.length - 1
-                ) === cliente.dni
-              ) {
-                const responseCliente = await APICliente.PostCliente(cliente);
-                console.log("Rcliente:", responseCliente);
-                console.log("Cliente:", cliente);
-                const responseCuenta = await APICuenta.PostCuenta(
-                  cuenta,
-                  cliente.dni
-                );
-                console.log("Rcuenta:", responseCuenta);
-                if (responseCliente.exito && responseCuenta.exito) {
-                  if (responseCliente.datos && responseCliente.datos.id) {
-                    const { id, nombre, apellido, usuario, clave, dni, mail } =
-                      responseCliente.datos;
-                    setCliente((prevCliente) => ({
-                      ...prevCliente,
-                      id,
-                      nombre,
-                      apellido,
-                      usuario,
-                      clave,
-                      dni,
-                      mail,
-                    }));
-                  }
-                  document.cookie = `userData=${encodeURIComponent(
-                    JSON.stringify(cliente)
-                  )}; Secure; SameSite=Strict; path=/`;
-
-                  navigate("/Principal");
-                  console.log("Registro exitoso");
-                } else {
-                  console.log(
-                    "Registro fallido cliente:",
-                    responseCliente.mensaje
-                  );
-                  console.log(
-                    "Registro fallido cuenta:",
-                    responseCuenta.mensaje
-                  );
-                }
-              } else {
-                console.log(
-                  "El dni del usuario del Renaper no coincide con el ingresado en el registro."
-                );
-              }
+          const responseCliente = await APICliente.PostCliente(cliente);
+          console.log("Rcliente:", responseCliente);
+          console.log("Cliente:", cliente);
+          const responseCuenta = await APICuenta.PostCuenta(
+            cuenta,
+            cliente.dni
+          );
+          console.log("Rcuenta:", responseCuenta);
+          if (responseCliente.exito && responseCuenta.exito) {
+            if (responseCliente.datos && responseCliente.datos.id) {
+              const { id, nombre, apellido, usuario, clave, dni, mail } =
+                responseCliente.datos;
+              setCliente((prevCliente) => ({
+                ...prevCliente,
+                id,
+                nombre,
+                apellido,
+                usuario,
+                clave,
+                dni,
+                mail,
+              }));
             }
+            document.cookie = `userData=${encodeURIComponent(
+              JSON.stringify(cliente)
+            )}; Secure; SameSite=Strict; path=/`;
+
+            navigate("/Principal");
+            console.log("Registro exitoso");
+          } else {
+            console.log("Registro fallido cliente:", responseCliente.mensaje);
+            console.log("Registro fallido cuenta:", responseCuenta.mensaje);
           }
         }
-      } else {
-        console.log("Vuelva a validarse con el renaper");
       }
     } catch (error) {
       console.error("Error al registrarse:", error);

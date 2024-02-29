@@ -15,15 +15,12 @@ const Movimientos = () => {
   const [id, setId] = useState(null);
   const [mostrarTransferencias, setMostrarTransferencias] = useState(false);
 
-
   useEffect(() => {
     const cookieData = document.cookie
       .split(";")
       .find((cookie) => cookie.trim().startsWith("userData="));
     if (cookieData) {
-      const userData = JSON.parse(
-        decodeURIComponent(cookieData.split("=")[1])
-      );
+      const userData = JSON.parse(decodeURIComponent(cookieData.split("=")[1]));
       setUserData(userData);
       console.log("Datos del usuario:", userData);
     }
@@ -64,7 +61,6 @@ const Movimientos = () => {
     });
   };
 
-
   const handleVolverClick = () => {
     window.history.back();
   };
@@ -88,6 +84,11 @@ const Movimientos = () => {
       />
       {mostrarTransferencias && (
         <>
+          <ListarArrays
+            nombre="Prueba"
+            array={transferencias}
+            atributos={["monto", "fecha", "cuentaDestino.cbu"]}
+          />
           <ListarArrays
             nombre="Transferencias realizadas"
             array={transferencias.filter(

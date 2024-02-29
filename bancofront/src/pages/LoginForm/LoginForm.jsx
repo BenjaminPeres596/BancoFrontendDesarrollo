@@ -26,68 +26,34 @@ const LoginForm = ({ cliente, setCliente }) => {
         const cookieData3 = document.cookie
           .split(";")
           .find((cookie) => cookie.trim().startsWith("authCode="));
-
         if (cookieData3) {
           const authCode = JSON.parse(
             decodeURIComponent(cookieData3.split("=")[1])
           );
-
-          console.log("Valido:", valido);
-
-          const respuestaRenaper = await APICliente.AuthRenaper(authCode);
-          console.log(
-            respuestaRenaper.datos.cuil.substring(
-              respuestaRenaper.datos.cuil.length - 9,
-              respuestaRenaper.datos.cuil.length - 1
-            ),
-            cliente.dni
+          const response = await APICliente.LoginAuth(
+            cliente.dni,
+            cliente.usuario,
+            cliente.clave,
+            authCode
           );
-          if (respuestaRenaper.exito === true) {
-            setValido(false);
-            if (respuestaRenaper.datos.estado === true) {
-              if (
-                respuestaRenaper.datos.cuil.substring(
-                  respuestaRenaper.datos.cuil.length - 9,
-                  respuestaRenaper.datos.cuil.length - 1
-                ) === cliente.dni
-              ) {
-                const response = await APICliente.LoginAuth(
-                  cliente.dni,
-                  cliente.usuario,
-                  cliente.clave
-                );
-                if (response.exito) {
-                  const { id, nombre, apellido, mail } = response.datos;
-                  setCliente((prevCliente) => ({
-                    ...prevCliente,
-                    id,
-                    nombre,
-                    apellido,
-                    mail,
-                  }));
-                  document.cookie = `userData=${encodeURIComponent(
-                    JSON.stringify(response.datos)
-                  )}; Secure; SameSite=Strict; path=/`;
+          if (response.exito) {
+            const { id, nombre, apellido, mail } = response.datos;
+            setCliente((prevCliente) => ({
+              ...prevCliente,
+              id,
+              nombre,
+              apellido,
+              mail,
+            }));
+            document.cookie = `userData=${encodeURIComponent(
+              JSON.stringify(response.datos)
+            )}; Secure; SameSite=Strict; path=/`;
 
-                  console.log("Inicio de sesión exitoso");
-                  navigate("/Principal");
-                } else {
-                  console.log("Inicio de sesión fallido:", response.mensaje);
-                }
-              } else {
-                console.log(
-                  "El dni ingresado en el formulario no coincide con el del usuario del Renaper."
-                );
-              }
-            } else {
-              console.log(
-                "Inicio de sesión fallido:",
-                respuestaRenaper.mensaje
-              );
-            }
+            console.log("Inicio de sesión exitoso");
+            navigate("/Principal");
+          } else {
+            console.log("Inicio de sesión fallido:", response.mensaje);
           }
-        } else {
-          console.log("Debes validarte con el renaper");
         }
       }
     } catch (error) {
@@ -107,6 +73,11 @@ const LoginForm = ({ cliente, setCliente }) => {
         JSON.stringify(false)
       )}; Secure=true; SameSite=Strict; path=/Registro`;
     }
+    const params = new URLSearchParams(location.search);
+    const code = params.get("queryparameter");
+    document.cookie = `authCode=${encodeURIComponent(
+      JSON.stringify(code)
+    )}; Secure=true; SameSite=Strict; path=/`;
     if (cookieData) {
       navigate("/Principal");
     }
