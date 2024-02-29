@@ -16,7 +16,7 @@ function App() {
     usuario: "",
     clave: "",
     sal: "",
-    cuil: "",
+    cuil: 0,
     mail: "",
     bancoId: 1,
     banco: {

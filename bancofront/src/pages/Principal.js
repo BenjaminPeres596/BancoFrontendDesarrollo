@@ -14,11 +14,9 @@ const Principal = () => {
   const [userData, setUserData] = useState({});
   const [mostrarSaldo, setMostrarSaldo] = useState(true);
 
-
-
-  const cuenta = useState({
+  const [cuenta, setCuenta] = useState({
     id: 0,
-    cbu: 0,
+    cbu: "string",
     fechaAlta: "string",
     saldo: 0,
     clienteId: 0,
@@ -29,7 +27,7 @@ const Principal = () => {
       usuario: "string",
       clave: "string",
       sal: "string",
-      dni: 0,
+      cuil: 0,
       mail: "string",
       bancoId: 0,
       banco: {
@@ -45,7 +43,7 @@ const Principal = () => {
       id: 0,
       nombre: "string",
     },
-  })
+  });
 
   useEffect(() => {
     const cookieData = document.cookie
@@ -63,7 +61,7 @@ const Principal = () => {
 
   useEffect(() => {
     if (userData) {
-        APICuenta.GetCuentas(userData.cuil)
+      APICuenta.GetCuentas(userData.cuil)
         .then((data) => {
           setCuentas(data.datos);
         })
@@ -86,10 +84,11 @@ const Principal = () => {
     if (userData && cuentas.length > 0) {
       setCuentaSeleccionada(cuentas[0]); // Selecciona automáticamente la primera cuenta
       setIdDesplegable(cuentas[0].id); // Establece automáticamente el ID de la primera cuenta
-      document.cookie = `cuentaSeleccionada=${encodeURIComponent(JSON.stringify(cuentas[0]))}; expires=Thu, 31 Dec 2024 23:59:59 UTC; path=/;`;
+      document.cookie = `cuentaSeleccionada=${encodeURIComponent(
+        JSON.stringify(cuentas[0])
+      )}; expires=Thu, 31 Dec 2024 23:59:59 UTC; path=/;`;
     }
   }, [userData, cuentas]);
-
 
   const toggleMostrarSaldo = () => {
     setMostrarSaldo(!mostrarSaldo);
@@ -119,8 +118,13 @@ const Principal = () => {
   const handleCrearCuenta = async () => {
     try {
       // Lógica para crear una nueva cuenta utilizando la API
+      console.log(cuenta);
+      console.log(userData.cuil);
       const nuevaCuenta = await APICuenta.PostCuenta(cuenta, userData.cuil);
       console.log("Nueva cuenta creada:", nuevaCuenta);
+      APICuenta.GetCuentas(userData.cuil).then((data) => {
+        setCuentas(data.datos);
+      });
       // Puedes realizar acciones adicionales después de crear la cuenta si es necesario
     } catch (error) {
       console.error("Error al crear una nueva cuenta:", error);
@@ -139,18 +143,17 @@ const Principal = () => {
             atributoAMostrar={"id"}
             textoQueAcompaña={"Cuenta N°:"}
             onSelect={(id) => {
+              const cuentaSeleccionada = cuentas.find(
+                (cuenta) => cuenta.id.toString() === id.split(":")[1].toString()
+              );
+              setIdDesplegable(id.split(":")[1]);
+              setCuentaSeleccionada(cuentaSeleccionada);
 
-                const cuentaSeleccionada = cuentas.find(
-                  (cuenta) =>
-                    cuenta.id.toString() === id.split(":")[1].toString()
-                );
-                setIdDesplegable(id.split(":")[1]);
-                setCuentaSeleccionada(cuentaSeleccionada);
-
-                setIdDesplegable(id.split(":")[1]);
-                setCuentaSeleccionada(cuentaSeleccionada);
-                 document.cookie = `cuentaSeleccionada=${encodeURIComponent(JSON.stringify(cuentaSeleccionada))}; expires=Thu, 31 Dec 2024 23:59:59 UTC; path=/;`;
-
+              setIdDesplegable(id.split(":")[1]);
+              setCuentaSeleccionada(cuentaSeleccionada);
+              document.cookie = `cuentaSeleccionada=${encodeURIComponent(
+                JSON.stringify(cuentaSeleccionada)
+              )}; expires=Thu, 31 Dec 2024 23:59:59 UTC; path=/;`;
             }}
           />
         </div>
@@ -188,10 +191,10 @@ const Principal = () => {
           clases={["col-3", "text-truncate"]}
         />
         <Boton
-        accion={handleCrearCuenta}
-        nombreAccion="Crear nueva cuenta"
-        clases={["col-3", "text-truncate"]}
-      />
+          accion={handleCrearCuenta}
+          nombreAccion="Crear nueva cuenta"
+          clases={["col-3", "text-truncate"]}
+        />
       </div>
       <Boton
         accion={handleSalir}
